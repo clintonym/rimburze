@@ -1,9 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Organisasi, Outcome, Obj } from '../organisasi/organisasi.model';
 import { ModalController } from '@ionic/angular';
-import { ELOOP, SIGINT } from 'constants';
-import { ActivatedRoute } from '@angular/router';
-import { OrganisasiService } from '../organisasi/organisasi.service';
 
 @Component({
   selector: 'app-popover',

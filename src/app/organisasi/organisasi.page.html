@@ -8,19 +8,20 @@
 <ion-content>
   <ion-grid>
     <ion-row>
-      <ion-col size-md="6" offset-md="3">
-        <ion-list lines="none" *ngFor="let org of loadedOrgs">
-          <ion-card style="border-radius: 15px;">
-            <ion-item lines="none" (click)="orgsOnClick(org.id)">
-              <ion-thumbnail slot="start">
-                <img>
-              </ion-thumbnail>
+      <ion-col size="12" size-sm="8" offset-sm=2>
+        <ion-list>
+          <ion-list-header>
+            GROUPS
+          </ion-list-header>
+            <ion-item (click)="orgsOnClick(org.id)" *ngFor="let org of loadedOrgs">
+              <ion-avatar slot="start">
+                <img src="./assets/icon/favicon.png">
+              </ion-avatar>
               <ion-label>
-                <h3>{{ org.name }}</h3>
-                <p>{{ org.year }}</p>
+                <p style="font-size: 13px;"><b>{{ org.name }}</b></p>
+                <p style="font-size: 12px;">{{ org.year }}</p>
               </ion-label>
             </ion-item>
-          </ion-card>
         </ion-list>
       </ion-col>
     </ion-row>
@@ -28,15 +29,15 @@
 </ion-content>
 
 <ion-fab horizontal="end" vertical="bottom" slot="fixed">
-    <ion-fab-button color="tertiary">
-      <ion-icon name="arrow-dropup"></ion-icon>
+  <ion-fab-button color="tertiary">
+    <ion-icon name="arrow-dropup"></ion-icon>
+  </ion-fab-button>
+  <ion-fab-list side="top">
+    <ion-fab-button color="tertiary" (click)="createOnClick()">
+      <ion-icon name="add"></ion-icon>
     </ion-fab-button>
-    <ion-fab-list side="top">
-      <ion-fab-button color="tertiary" (click)="createOnClick()">
-        <ion-icon name="add"></ion-icon>
+    <ion-fab-button color="tertiary">
+        <ion-icon name="log-in" (click)="joinOnClick()"></ion-icon>
       </ion-fab-button>
-      <ion-fab-button color="tertiary">
-          <ion-icon name="log-in" (click)="joinOnClick()"></ion-icon>
-        </ion-fab-button>
-    </ion-fab-list>
-  </ion-fab>
+  </ion-fab-list>
+</ion-fab>

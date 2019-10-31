@@ -3,6 +3,20 @@
 
 /** Ionic CSS Variables **/
 :root {
+
+  --ion-background-color: #ffffff;
+
+  --ion-toolbar-background: #516df6;
+  --ion-toolbar-color: #FFFFFF;
+  
+  /** night mode **/
+  --ion-color-night: #21253d;
+  --ion-color-night-rgb: 33,37,61;
+  --ion-color-night-contrast: #ffffff;
+  --ion-color-night-contrast-rgb: 255,255,255;
+  --ion-color-night-shade: #1d2136;
+  --ion-color-night-tint: #373b50;
+
   /** primary **/
   --ion-color-primary: #3880ff;
   --ion-color-primary-rgb: 56, 128, 255;
@@ -20,12 +34,12 @@
   --ion-color-secondary-tint: #24d6ea;
 
   /** tertiary **/
-  --ion-color-tertiary: #6559D8;
-  --ion-color-tertiary-rgb: 112, 68, 255;
+  --ion-color-tertiary: #516df6;
+  --ion-color-tertiary-rgb: 81,109,246;
   --ion-color-tertiary-contrast: #ffffff;
-  --ion-color-tertiary-contrast-rgb: 255, 255, 255;
-  --ion-color-tertiary-shade: #633ce0;
-  --ion-color-tertiary-tint: #7e57ff;
+  --ion-color-tertiary-contrast-rgb: 255,255,255;
+  --ion-color-tertiary-shade: #4760d8;
+  --ion-color-tertiary-tint: #627cf7;
 
   /** success **/
   --ion-color-success: #10dc60;
@@ -44,12 +58,12 @@
   --ion-color-warning-tint: #ffd31a;
 
   /** danger **/
-  --ion-color-danger: #F38E8F;
-  --ion-color-danger-rgb: 245, 61, 61;
+  --ion-color-danger: #fa4678;
+  --ion-color-danger-rgb: 250,70,120;
   --ion-color-danger-contrast: #ffffff;
-  --ion-color-danger-contrast-rgb: 255, 255, 255;
-  --ion-color-danger-shade: #d33939;
-  --ion-color-danger-tint: #f25454;
+  --ion-color-danger-contrast-rgb: 0,0,0;
+  --ion-color-danger-shade: #dc3e6a;
+  --ion-color-danger-tint: #fb5986;
 
   /** dark **/
   --ion-color-dark: #222428;
@@ -68,17 +82,14 @@
   --ion-color-medium-tint: #a2a4ab;
 
   /** light **/
-  --ion-color-light: #f4f5f8;
+  --ion-color-light: #f5f5f5;
   --ion-color-light-rgb: 244, 244, 244;
   --ion-color-light-contrast: #000000;
   --ion-color-light-contrast-rgb: 0, 0, 0;
   --ion-color-light-shade: #d7d8da;
   --ion-color-light-tint: #f5f6f9;
 
-  --ion-background-color: #f5f5f5;
-
-  --ion-toolbar-background: rgb(86, 73, 207);
-  --ion-toolbar-color: #FFFFFF;
+  
   
   //COLOR
   --ion-color-forth: #F38E8F;
@@ -86,6 +97,23 @@
   --ion-color-sixth: #00B0FF;
   --ion-color-seventh: #00E676;
   --ion-color-darkpurple: rgb(86, 73, 207);
+
+  //backup
+  // --ion-color-light: #f4f5f8;
+
+  // --ion-color-tertiary: #6559D8;
+  // --ion-color-tertiary-rgb: 112, 68, 255;
+  // --ion-color-tertiary-contrast: #ffffff;
+  // --ion-color-tertiary-contrast-rgb: 255, 255, 255;
+  // --ion-color-tertiary-shade: #633ce0;
+  // --ion-color-tertiary-tint: #7e57ff;
+
+  // --ion-color-danger: #F38E8F;
+  // --ion-color-danger-rgb: 245, 61, 61;
+  // --ion-color-danger-contrast: #ffffff;
+  // --ion-color-danger-contrast-rgb: 255, 255, 255;
+  // --ion-color-danger-shade: #d33939;
+  // --ion-color-danger-tint: #f25454;
 }
 
 // fonts

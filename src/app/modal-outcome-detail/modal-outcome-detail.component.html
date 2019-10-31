@@ -7,12 +7,40 @@
   </ion-buttons>
 </ion-toolbar>
 
-<ion-content padding>
+<ion-content>
   <ion-grid>
     <ion-row>
-      <ion-col size-md="6" offset-sm="3">
-        <ion-list *ngFor="let org of selectedOrgs.obj">
-          <ion-card style="border-radius: 20px;" text-center>
+      <ion-col size="12" size-sm="8" offset-sm=2 text-center>
+        <div style="margin-top: 12%; margin-bottom: 5%;">
+          <ion-label color="danger" style="font-size: 15px;"><b>-{{ getTotalPrice() | currency : "Rp"}}</b></ion-label>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-list>
+          <ion-list-header>
+            EXPENSES
+          </ion-list-header>
+          <ion-item-sliding *ngFor="let org of selectedOrgs.obj">
+            <ion-item>
+              <ion-icon slot="start" name="arrow-dropleft" size="small" color="danger" style="margin-left: -2%; margin-right: 4%;"></ion-icon>
+              <ion-label>
+                <p style="font-size: 12px;"><b>{{ org.objName }}</b></p>
+                <p style="font-size: 12px;">{{ org.date }}</p>
+              </ion-label>
+              <ion-label>
+                  <p style="font-size: 12px; float: right;"><span style="font-size: 18px; color: #fa4678;">-</span><b>{{ org.price | currency : "Rp"}}</b></p>
+              </ion-label>
+            </ion-item>
+
+            <ion-item-options side="end">
+              <ion-item-option color="light">
+                <ion-icon size="small" name="close" slot="icon-only" color="danger"></ion-icon>
+              </ion-item-option>
+            </ion-item-options>
+          </ion-item-sliding>
+          <!-- <ion-card style="border-radius: 20px;" text-center>
             <ion-card-header>
               <ion-card-subtitle style="font-size: 12px;">{{ org.date }}</ion-card-subtitle>
               <ion-card-title style="font-size: 16px;">{{ org.objName }}</ion-card-title>
@@ -21,7 +49,7 @@
               <ion-icon name="pricetag" slot="start" style="color: #F38E8F;"></ion-icon>
               <ion-label style="font-size: 15px; color: #F38E8F;"> -{{ org.price | currency : "Rp"}}</ion-label>
             </ion-card-content>
-          </ion-card>
+          </ion-card> -->
         </ion-list>
       </ion-col>
     </ion-row>
@@ -29,20 +57,20 @@
 </ion-content>
 
 <ion-fab horizontal="end" vertical="bottom" slot="fixed">
-    <ion-fab-button color="tertiary">
-      <ion-icon name="arrow-dropup"></ion-icon>
+  <ion-fab-button color="tertiary">
+    <ion-icon name="arrow-dropup"></ion-icon>
+  </ion-fab-button>
+  <ion-fab-list side="top">
+    <ion-fab-button color="tertiary" (click)="addOnClick()">
+      <ion-icon name="add"></ion-icon>
     </ion-fab-button>
-    <ion-fab-list side="top">
-      <ion-fab-button color="tertiary" (click)="addOnClick()">
-        <ion-icon name="add"></ion-icon>
+    <ion-fab-button color="tertiary">
+        <ion-icon name="done-all" (click)="doneOnClick()"></ion-icon>
       </ion-fab-button>
-      <ion-fab-button color="tertiary">
-          <ion-icon name="done-all" (click)="doneOnClick()"></ion-icon>
-        </ion-fab-button>
-    </ion-fab-list>
-  </ion-fab>
+  </ion-fab-list>
+</ion-fab>
 
-<ion-footer padding>
+<!-- <ion-footer padding>
   <ion-grid>
     <ion-row>
       <ion-col>
@@ -50,4 +78,4 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-</ion-footer>
+</ion-footer> -->
