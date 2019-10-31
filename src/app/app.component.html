@@ -1,0 +1,33 @@
+<ion-app>
+  <ion-menu side="start" menuId="m1">
+
+    <ion-content>
+      <ion-list>
+        <ion-menu-toggle>
+          <ion-item lines="none" routerLink="/organisasi">
+            <ion-icon name="home" slot="start"></ion-icon>
+            <ion-label><p>Home</p></ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        
+        <ion-menu-toggle>
+          <ion-item lines="none" routerLink="/profile">
+            <ion-icon name="contact" slot="start"></ion-icon>
+            <ion-label><p>Profile</p></ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+      </ion-list>
+    </ion-content>
+
+    <ion-footer>
+      <ion-menu-toggle>
+        <ion-item lines="none" text-center>
+          <ion-icon style="color: #F38E8F;" name="log-out"></ion-icon>
+          <ion-label><p style="color: #F38E8F;">Log Out</p></ion-label>
+        </ion-item>
+      </ion-menu-toggle>
+    </ion-footer>
+
+  </ion-menu>
+  <ion-router-outlet main></ion-router-outlet>
+</ion-app>

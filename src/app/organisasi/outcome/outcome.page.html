@@ -1,0 +1,23 @@
+<ion-toolbar style="border-bottom-left-radius: 15px; border-bottom-right-radius: 15px; background-color: #F38E8F;">
+  <ion-buttons slot="start">
+    <ion-back-button defaultHref="/organisasi"></ion-back-button>
+  </ion-buttons>
+  <ion-title style="font-size: 16px;">{{ loadedOrgs.name }}</ion-title>  
+  <ion-icon slot="end" name="paper" class="iconSize" (click)="histOnClick(loadedOrgs)"></ion-icon>
+</ion-toolbar>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col size-md="6" offset-md="3">
+        <ion-list lines="none" *ngFor="let org of loadedOrgs.outcome">
+          <ion-card style="border-radius: 10px;" (click)="modalOnClick(org)">
+            <ion-card-header>
+              <ion-card-subtitle>{{ org.name }}</ion-card-subtitle>
+            </ion-card-header>
+          </ion-card>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

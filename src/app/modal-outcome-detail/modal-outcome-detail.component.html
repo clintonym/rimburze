@@ -1,0 +1,53 @@
+<ion-toolbar style="border-bottom-left-radius: 15px; border-bottom-right-radius: 15px;">
+  <ion-title style="font-size: 16px;">{{ selectedOrgs.name }}</ion-title>
+  <ion-buttons slot="primary">
+    <ion-button (click)="onCancel()">
+      <ion-icon name="close"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+</ion-toolbar>
+
+<ion-content padding>
+  <ion-grid>
+    <ion-row>
+      <ion-col size-md="6" offset-sm="3">
+        <ion-list *ngFor="let org of selectedOrgs.obj">
+          <ion-card style="border-radius: 20px;" text-center>
+            <ion-card-header>
+              <ion-card-subtitle style="font-size: 12px;">{{ org.date }}</ion-card-subtitle>
+              <ion-card-title style="font-size: 16px;">{{ org.objName }}</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <ion-icon name="pricetag" slot="start" style="color: #F38E8F;"></ion-icon>
+              <ion-label style="font-size: 15px; color: #F38E8F;"> -{{ org.price | currency : "Rp"}}</ion-label>
+            </ion-card-content>
+          </ion-card>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<ion-fab horizontal="end" vertical="bottom" slot="fixed">
+    <ion-fab-button color="tertiary">
+      <ion-icon name="arrow-dropup"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="top">
+      <ion-fab-button color="tertiary" (click)="addOnClick()">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button color="tertiary">
+          <ion-icon name="done-all" (click)="doneOnClick()"></ion-icon>
+        </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
+
+<ion-footer padding>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-label style="font-size: 15px; color: #F38E8F; float: left;"> -{{ getTotalPrice() | currency : "Rp"}}</ion-label>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>

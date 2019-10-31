@@ -1,0 +1,42 @@
+<ion-toolbar style="border-bottom-left-radius: 15px; border-bottom-right-radius: 15px;">
+  <ion-buttons slot="start">
+    <ion-menu-button menu="m1"></ion-menu-button>
+  </ion-buttons>
+  <ion-title style="font-size: 16px;">HOME</ion-title>
+</ion-toolbar>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col size-md="6" offset-md="3">
+        <ion-list lines="none" *ngFor="let org of loadedOrgs">
+          <ion-card style="border-radius: 15px;">
+            <ion-item lines="none" (click)="orgsOnClick(org.id)">
+              <ion-thumbnail slot="start">
+                <img>
+              </ion-thumbnail>
+              <ion-label>
+                <h3>{{ org.name }}</h3>
+                <p>{{ org.year }}</p>
+              </ion-label>
+            </ion-item>
+          </ion-card>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<ion-fab horizontal="end" vertical="bottom" slot="fixed">
+    <ion-fab-button color="tertiary">
+      <ion-icon name="arrow-dropup"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="top">
+      <ion-fab-button color="tertiary" (click)="createOnClick()">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button color="tertiary">
+          <ion-icon name="log-in" (click)="joinOnClick()"></ion-icon>
+        </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
