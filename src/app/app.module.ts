@@ -11,10 +11,18 @@ import { AppRoutingModule } from './app-routing.module';
 import { ModalOutcomeDetailComponent } from './modal-outcome-detail/modal-outcome-detail.component';
 import { PopoverComponent } from './popover/popover.component';
 
+import { AngularFireModule } from '@angular/fire';
+import { environment } from '../environments/environment';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { ModalCreateOrganisasiComponent } from './modal-create-organisasi/modal-create-organisasi.component';
+import { FormsModule } from '@angular/forms';
+
 @NgModule({
-  declarations: [AppComponent, ModalOutcomeDetailComponent, PopoverComponent],
-  entryComponents: [ModalOutcomeDetailComponent, PopoverComponent],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule],
+  declarations: [AppComponent, ModalOutcomeDetailComponent, ModalCreateOrganisasiComponent, PopoverComponent],
+  entryComponents: [ModalOutcomeDetailComponent, ModalCreateOrganisasiComponent, PopoverComponent],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule, FormsModule],
   providers: [
     StatusBar,
     SplashScreen,

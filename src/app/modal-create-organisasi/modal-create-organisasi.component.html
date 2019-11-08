@@ -1,0 +1,11 @@
+<ion-content padding>
+  <ion-list lines="full">
+    <ion-item>
+      <ion-input required type="text" placeholder="Group Name" [ngModel]="selectedOrgs?.name"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input required type="password" placeholder="Password" [ngModel]="selectedOrgs?.password"></ion-input>
+    </ion-item>
+  </ion-list>
+  <ion-button expand="block" (click)="createGroup()">Create</ion-button>
+</ion-content>

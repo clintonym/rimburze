@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { OrganisasiService } from './organisasi.service';
-import { AlertController, ToastController } from '@ionic/angular';
+import { AlertController, ToastController, ModalController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { Organisasi } from './organisasi.model';
+import { ModalCreateOrganisasiComponent } from '../modal-create-organisasi/modal-create-organisasi.component';
 
 @Component({
   selector: 'app-organisasi',
@@ -17,46 +18,60 @@ export class OrganisasiPage implements OnInit {
     private orgsService: OrganisasiService,
     private alertCtrl: AlertController,
     private router: Router,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private modalCtrl: ModalController
   ) { }
 
   ngOnInit() {
-    this.loadedOrgs = this.orgsService.orgs;
+    this.orgsService.getOrgs().subscribe(res => {
+      this.loadedOrgs = res;
+    });
   }
 
   orgsOnClick(id: string) {
     this.router.navigate(['/organisasi', id]);
   }
 
-  async createOnClick() {
-    const alert = await this.alertCtrl.create({
-      header: 'Create Group',
-      message: 'Create a group for you and your friends',
-      inputs: [
-        {
-          name: 'id',
-          placeholder: 'ID',
-        },
-        {
-          name: 'password',
-          placeholder: 'Password',
-          type: 'password'
-        }
-      ],
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-        },
-        {
-          text: 'Create',
-          handler: () => {
-            this.createToast();
-          }
-        }
-      ]
+  // async createOnClick() {
+  //   const alert = await this.alertCtrl.create({
+  //     header: 'Create Group',
+  //     message: 'Create a group for you and your friends',
+  //     inputs: [
+  //       {
+  //         name: 'id',
+  //         placeholder: 'ID',
+  //       },
+  //       {
+  //         name: 'password',
+  //         placeholder: 'Password',
+  //         type: 'password'
+  //       }
+  //     ],
+  //     buttons: [
+  //       {
+  //         text: 'Cancel',
+  //         role: 'cancel',
+  //       },
+  //       {
+  //         text: 'Create',
+  //         handler: () => {
+  //           this.orgsService.addOrgs(this.orgs).then(() => {
+  //             this.createToast();
+  //           })
+  //         }
+  //       }
+  //     ]
+  //   });
+  //   await alert.present();
+  // }
+
+  async createOnClick(orgs: Organisasi) {
+    const modal = await this.modalCtrl.create({
+      component: ModalCreateOrganisasiComponent,
+      componentProps: {selectedOrgs: orgs}
     });
-    await alert.present();
+
+    return await modal.present();
   }
 
   async joinOnClick() {

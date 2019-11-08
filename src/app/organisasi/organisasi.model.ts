@@ -1,35 +1,65 @@
-export class Organisasi {
-    constructor(
-        public id: string,
-        public name: string,
-        public year: string,
-        public history: History[],
-        public outcome: Outcome[]
-    ) {}
+export interface Organisasi {
+    id: string,
+    name: string,
+    password: string,
+    year: string,
+    history: History[],
+    outcome: Outcome[]
 }
 
-export class Outcome {
-    constructor(
-        public id: string,
-        public name: string,
-        public obj: Obj[]
-    ) {}
+export interface Outcome {
+    id: string,
+    name: string,
+    obj: Obj[]
 }
 
-export class Obj {
-    constructor(
-        public id: string,
-        public objName: string,
-        public price: number,
-        public date: string
-    ) {}
+export interface Obj {
+    id: string,
+    objName: string,
+    price: number,
+    date: string
 }
 
-export class History {
-    constructor(
-        public id: string,
-        public name: string,
-        public date: string,
-        public total: number
-    ) {}
+export interface History {
+    id: string,
+    name: string,
+    date: string,
+    total: number
 }
+
+// export class Organisasi {
+//     constructor(
+//         public id: string,
+//         public name: string,
+//         public password: string,
+//         public year: string,
+//         public history: History[],
+//         public outcome: Outcome[]
+//     ) {}
+// }
+
+// export class Outcome {
+//     constructor(
+//         public id: string,
+//         public name: string,
+//         public obj: Obj[]
+//     ) {}
+// }
+
+// export class Obj {
+//     constructor(
+//         public id: string,
+//         public objName: string,
+//         public price: number,
+//         public date: string
+//     ) {}
+// }
+
+// export class History {
+//     constructor(
+//         public id: string,
+//         public name: string,
+//         public date: string,
+//         public total: number
+//     ) {}
+// }
