@@ -11,9 +11,9 @@ import { LoadingController, NavController } from '@ionic/angular';
 })
 export class ModalCreateOrganisasiComponent implements OnInit {
 
-  @Input() selectedOrgs: Organisasi;
+  // @Input() selectedOrgs: Organisasi;
 
-  organisasiId = null;
+  selectedOrgs: Organisasi;
 
   constructor(
     private route: ActivatedRoute,
@@ -27,6 +27,34 @@ export class ModalCreateOrganisasiComponent implements OnInit {
     // if(this.organisasiId) {
     //   this.loadedOrgs();
     // }
+    this.selectedOrgs = {
+      id: '',
+      name: '',
+      password: '',
+      year: '',
+      history: [
+        {
+          id: 'org1h1',
+          name: 'Kevin Brooks',
+          date: '4 Januari 2017',
+          total: 50000
+        }
+      ],
+      outcome: [
+        {
+          id: 'org1o1',
+          name: 'Kevin Brooks',
+          obj: [
+            {
+              id: 'org1o1b1',
+              objName: 'Karat Besi',
+              price: 50000,
+              date: '28 Oktober 2016'
+            }
+          ]
+        },
+      ]
+    }
   }
 
   // async loadedOrgs() {
