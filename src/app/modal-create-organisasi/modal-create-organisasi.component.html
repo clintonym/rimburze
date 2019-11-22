@@ -1,17 +1,31 @@
+<ion-toolbar style="border-bottom-left-radius: 15px; border-bottom-right-radius: 15px;">
+    <ion-title style="font-size: 16px;">Create Group</ion-title>
+    <ion-buttons slot="primary">
+      <ion-button (click)="onCancel()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
 <ion-content padding>
   <ion-list lines="full">
     <ion-item>
-      <ion-input required type="text" placeholder="ID" [(ngModel)]="selectedOrgs.id"></ion-input>
+      <ion-input style="font-size: 13px;" required type="text" placeholder="ID" [(ngModel)]="selectedOrgs.id"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-input required type="text" placeholder="Group Name" [(ngModel)]="selectedOrgs.name"></ion-input>
+      <ion-input style="font-size: 13px;" required type="text" placeholder="Group Name" [(ngModel)]="selectedOrgs.name"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-input required type="password" placeholder="Password" [(ngModel)]="selectedOrgs.password"></ion-input>
+      <ion-input style="font-size: 13px;" required type="password" placeholder="Password" [(ngModel)]="selectedOrgs.password"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-input required type="text" placeholder="Year 'YYYY'" [(ngModel)]="selectedOrgs.year"></ion-input>
+      <ion-input style="font-size: 13px;" required type="text" placeholder="Year 'YYYY'" [(ngModel)]="selectedOrgs.year"></ion-input>
     </ion-item>
   </ion-list>
-  <ion-button expand="block" (click)="createGroup()">Create</ion-button>
 </ion-content>
+
+<ion-fab horizontal="center" vertical="bottom" slot="fixed" (click)="createGroup()">
+  <ion-fab-button color="tertiary">
+    <ion-icon name="add"></ion-icon>
+  </ion-fab-button>
+</ion-fab>

@@ -3,6 +3,8 @@ import { Organisasi } from './organisasi.model';
 import { map } from 'rxjs/operators';
 import { AngularFirestoreCollection, AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
+import { fromBytesBE } from 'long';
+
 
 @Injectable({
   providedIn: 'root'
@@ -144,12 +146,13 @@ export class OrganisasiService {
 
   private orgsCollection: AngularFirestoreCollection<Organisasi>;
   private organisasi: Observable<Organisasi[]>;
+  private selectedOrganisasi: Organisasi;
 
   constructor(
     db: AngularFirestore
   ) {
     this.orgsCollection = db.collection<Organisasi>('organisasi');
-
+    
     this.organisasi = this.orgsCollection.snapshotChanges().pipe(
       map(actions => {
         return actions.map(a => {
@@ -159,6 +162,7 @@ export class OrganisasiService {
         });
       })
     )
+    
   }
 
   getOrgs() {
@@ -179,5 +183,13 @@ export class OrganisasiService {
 
   removeOrgs(organisasiId) {
     return this.orgsCollection.doc(organisasiId).delete();
+  }
+
+  setSelectedOrgs(Orgs: Organisasi){
+    this.selectedOrganisasi = Orgs;
+  }
+
+  getSelectedOrgs(){
+    return this.selectedOrganisasi;
   }
 }

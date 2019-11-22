@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { getHtmlTagDefinition } from '@angular/compiler';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'organisasi', pathMatch: 'full' },
+  { path: '', redirectTo: 'auth', pathMatch: 'full' },
   //{ path: 'home', loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)},
   { 
     path: 'organisasi', 

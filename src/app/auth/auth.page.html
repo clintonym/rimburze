@@ -7,7 +7,6 @@
             <img src="./assets/icon/rimburze_logo.png">
           </ion-thumbnail>
           <h1>RIMBURZE</h1>
-          
         </div>
       </ion-col>
     </ion-row>
@@ -15,23 +14,29 @@
       <ion-col size="12" size-sm="8" offset-sm=2>
         <ion-row>
           <ion-col>
-            <ion-item style="width: 250px; margin-left: auto; margin-right: auto;">
-              <ion-label style="font-size: 12px;" position="floating">username</ion-label>
-              <ion-input style="font-size: 12px;"></ion-input>
-            </ion-item>
-            <ion-item style="width: 250px; margin-left: auto; margin-right: auto;">
-              <ion-label style="font-size: 12px;" position="floating">password</ion-label>
-              <ion-input type="password" style="font-size: 12px;"></ion-input>
-            </ion-item>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>
-            <ion-row>
-              <ion-col>
-                <ion-button color="tertiary" style="font-size: 11px; width: 250px; margin-left: auto; margin-right: auto;" expand="block" routerLink="/organisasi">Log in</ion-button>
-              </ion-col>
-            </ion-row>
+            <form #f="ngForm" (ngSubmit)="onLogin(f)">
+              <ion-item style="width: 250px; margin-left: auto; margin-right: auto;">
+                <ion-label style="font-size: 12px;" position="floating">email</ion-label>
+                <ion-input style="font-size: 12px;"
+                  required
+                  ngModel
+                  name="email"
+                  type="email"
+                ></ion-input>
+              </ion-item>
+              <ion-item style="width: 250px; margin-left: auto; margin-right: auto;">
+                <ion-label style="font-size: 12px;" position="floating">password</ion-label>
+                <ion-input style="font-size: 12px;"
+                  required
+                  ngModel
+                  name="pwd"
+                  type="password"
+                  minlength="6"
+                ></ion-input>
+              </ion-item>
+              <ion-button color="tertiary" [disabled]="!f.valid" type="submit" style="font-size: 11px; width: 250px; margin-left: auto; margin-right: auto; margin-top: 10px;" expand="block">Sign in</ion-button>
+              <ion-button color="danger" expand="block" style="font-size: 11px; width: 250px; margin-left: auto; margin-right: auto; margin-top: 10px;" fill="outline" (click)="modalSignUp()">Sign Up</ion-button>
+            </form>
           </ion-col>
         </ion-row>
       </ion-col>

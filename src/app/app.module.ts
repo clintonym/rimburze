@@ -17,10 +17,13 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { ModalCreateOrganisasiComponent } from './modal-create-organisasi/modal-create-organisasi.component';
 import { FormsModule } from '@angular/forms';
 
+import { HttpClientModule } from '@angular/common/http';
+import { ModalSignUpComponent } from './modal-sign-up/modal-sign-up.component';
+
 @NgModule({
-  declarations: [AppComponent, ModalOutcomeDetailComponent, ModalCreateOrganisasiComponent, PopoverComponent],
-  entryComponents: [ModalOutcomeDetailComponent, ModalCreateOrganisasiComponent, PopoverComponent],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,
+  declarations: [AppComponent, ModalOutcomeDetailComponent, ModalCreateOrganisasiComponent, ModalSignUpComponent, PopoverComponent],
+  entryComponents: [ModalOutcomeDetailComponent, ModalCreateOrganisasiComponent, ModalSignUpComponent, PopoverComponent],
+  imports: [BrowserModule, HttpClientModule, IonicModule.forRoot(), AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule, FormsModule],
   providers: [

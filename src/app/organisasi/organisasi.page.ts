@@ -26,6 +26,12 @@ export class OrganisasiPage implements OnInit {
     this.orgsService.getOrgs().subscribe(res => {
       this.loadedOrgs = res;
     });
+
+  }
+
+  selectOrgs(org: Organisasi){
+    this.orgsService.setSelectedOrgs(org);
+    this.router.navigate(['/organisasi', org.id]);
   }
 
   orgsOnClick(id: string) {

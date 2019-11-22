@@ -10,13 +10,18 @@
   <ion-grid>
     <ion-row>
       <ion-col size-md="6" offset-md="3">
-        <ion-list lines="none" *ngFor="let org of loadedOrgs.outcome">
-          <ion-card style="border-radius: 10px;" (click)="modalOnClick(org)">
-            <ion-card-header>
-              <ion-card-subtitle>{{ org.name }}</ion-card-subtitle>
-            </ion-card-header>
-          </ion-card>
-        </ion-list>
+        <div text-center *ngIf="loadedOrgs.outcome.length === 0" style="margin-left: auto; margin-right: auto; margin-top: 50%;">
+          <p style="font-size: 14px; color: #989aa2;">Group is empty</p>
+        </div>
+        <div *ngIf="loadedOrgs.outcome.length > 0">
+          <ion-list lines="none" *ngFor="let org of loadedOrgs.outcome">
+            <ion-card style="border-radius: 10px;" (click)="modalOnClick(org)">
+              <ion-card-header>
+                <ion-card-subtitle>{{ org.name }}</ion-card-subtitle>
+              </ion-card-header>
+            </ion-card>
+          </ion-list>
+        </div>
       </ion-col>
     </ion-row>
   </ion-grid>

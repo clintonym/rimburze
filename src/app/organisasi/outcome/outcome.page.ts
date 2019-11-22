@@ -5,6 +5,8 @@ import { OrganisasiService } from '../organisasi.service';
 import { ModalController, PopoverController } from '@ionic/angular';
 import { ModalOutcomeDetailComponent } from 'src/app/modal-outcome-detail/modal-outcome-detail.component';
 import { PopoverComponent } from 'src/app/popover/popover.component';
+import { Observable } from 'rxjs';
+import { tokenName } from '@angular/compiler';
 
 @Component({
   selector: 'app-outcome',
@@ -14,6 +16,7 @@ import { PopoverComponent } from 'src/app/popover/popover.component';
 export class OutcomePage implements OnInit {
 
   loadedOrgs: Organisasi;
+  orgId = null;
 
   constructor(
     private activatedOrgs: ActivatedRoute,
@@ -24,14 +27,17 @@ export class OutcomePage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.activatedOrgs.paramMap.subscribe(
-      paramMap => {
-        if(!paramMap.has('organisasiId')) {
-          return;
-        }
-        this.loadedOrgs = this.orgsService.getOrgs(paramMap.get('organisasiId'));
-      }
-    )
+    console.log(this.orgsService.getSelectedOrgs());
+    this.loadedOrgs = this.orgsService.getSelectedOrgs();
+ 
+    // this.orgId = this.activatedOrgs.snapshot.params['organisasiId'];
+    // if(this.orgId){
+    //   console.log(this.orgId);
+    //   this.orgsService.getOrg(this.orgId).subscribe(res => {
+    //     this.loadedOrgs = res;
+    //   });;
+    //   console.log(this.loadedOrgs);
+    // }
   }
 
   async modalOnClick(orgs: Outcome) {

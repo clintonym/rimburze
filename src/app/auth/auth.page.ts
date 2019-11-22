@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { ModalController, ToastController } from '@ionic/angular';
+import { ModalSignUpComponent } from '../modal-sign-up/modal-sign-up.component';
+import { NgForm } from '@angular/forms';
+import { AuthService } from './auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-auth',
@@ -7,9 +12,44 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AuthPage implements OnInit {
 
-  constructor() { }
+  constructor(
+    private modalCtrl: ModalController,
+    private authSvc: AuthService,
+    private router: Router,
+    private toastCtrl: ToastController
+  ) { }
 
   ngOnInit() {
+  }
+
+  onLogin(f: NgForm) {
+    this.authSvc.login(f.value.email, f.value.pwd).subscribe(resp => {
+      console.log(resp);
+      this.router.navigateByUrl('organisasi');
+    }, err => {
+      this.presentToast();
+    })
+  }
+
+  async presentToast() {
+    const toast = await this.toastCtrl.create({
+      message: 'Wrong email or password',
+      buttons: [
+        {
+          text: 'Close',
+          role: 'cancel'
+        }
+      ],
+      duration: 5000
+    });
+    toast.present();
+  }
+
+  async modalSignUp() {
+    const modal = await this.modalCtrl.create({
+      component: ModalSignUpComponent
+    });
+    return await modal.present();
   }
 
 }
