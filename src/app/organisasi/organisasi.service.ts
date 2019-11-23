@@ -196,6 +196,10 @@ export class OrganisasiService {
     return this.orgsCollection.add(orgs);
   }
 
+  joinOrg(id,password){
+    this.orgsCollection.doc<Organisasi>(id).collection('password',password);
+  }
+
   removeOrgs(organisasiId) {
     return this.orgsCollection.doc(organisasiId).delete();
   }

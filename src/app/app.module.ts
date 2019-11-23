@@ -23,12 +23,13 @@ import { ModalSignUpComponent } from './modal-sign-up/modal-sign-up.component';
 // import { AngularFireModule } from 'angularfire2';
 // import { AngularFireAuth } from 'angularfire2/auth';
 import { AuthService } from './auth/auth.service';
+import { ModalGroupPasswordComponent } from './modal-group-password/modal-group-password.component';
 // import { AngularFireDatabase } from 'angularfire2/database';
 
 @NgModule({
-  declarations: [AppComponent, ModalOutcomeDetailComponent, ModalCreateOrganisasiComponent, ModalSignUpComponent, PopoverComponent],
-  entryComponents: [ModalOutcomeDetailComponent, ModalCreateOrganisasiComponent, ModalSignUpComponent, PopoverComponent],
-  imports: [BrowserModule, HttpClientModule, IonicModule.forRoot(), AppRoutingModule,
+  declarations: [AppComponent, ModalOutcomeDetailComponent,ModalGroupPasswordComponent, ModalCreateOrganisasiComponent, ModalSignUpComponent, PopoverComponent],
+  entryComponents: [ModalOutcomeDetailComponent, ModalGroupPasswordComponent, ModalCreateOrganisasiComponent, ModalSignUpComponent, PopoverComponent],
+  imports: [BrowserModule, HttpClientModule, IonicModule.forRoot(), AppRoutingModule, 
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule, FormsModule],
   providers: [

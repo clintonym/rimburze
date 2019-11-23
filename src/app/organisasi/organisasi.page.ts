@@ -4,6 +4,7 @@ import { AlertController, ToastController, ModalController } from '@ionic/angula
 import { Router } from '@angular/router';
 import { Organisasi } from './organisasi.model';
 import { ModalCreateOrganisasiComponent } from '../modal-create-organisasi/modal-create-organisasi.component';
+import { ModalGroupPasswordComponent } from '../modal-group-password/modal-group-password.component';
 // import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 
 @Component({
@@ -30,9 +31,39 @@ export class OrganisasiPage implements OnInit {
 
   }
 
-  selectOrgs(org: Organisasi){
-    this.orgsService.setSelectedOrgs(org);
-    this.router.navigate(['/organisasi', org.id]);
+  async selectOrgs(org: Organisasi){
+    // const alert = await this.alertCtrl.create({
+    //     header: 'Join Group',
+    //     message: 'Enter Password',
+    //     inputs: [
+    //       {
+    //         name: 'password',
+    //         placeholder: 'Password',
+    //         type: 'password'
+    //       }
+    //     ],
+    //     buttons: [
+    //       {
+    //         text: 'Cancel',
+    //         role: 'cancel',
+    //       },
+    //       {
+    //         text: 'Join',
+    //         handler: () => {
+    //           // this.orgsService.joinOrg(org.id,password);
+    //           // this.orgsService.setSelectedOrgs(org);
+    //           // this.router.navigate(['/organisasi', org.id]);
+    //         }
+    //       }
+    //     ]
+    //   });
+    //   await alert.present();
+    const modal = await this.modalCtrl.create({
+      component: ModalGroupPasswordComponent,
+      componentProps: {selectedOrgs: org}
+    });
+
+    return await modal.present();
   }
 
   orgsOnClick(id: string) {
