@@ -27,6 +27,11 @@ export interface History {
     total: number
 }
 
+export interface Users{
+    name: string,
+    email: string
+}
+
 // export class Organisasi {
 //     constructor(
 //         public id: string,

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Organisasi } from './organisasi.model';
+import { Organisasi, Users } from './organisasi.model';
 import { map } from 'rxjs/operators';
 import { AngularFirestoreCollection, AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
@@ -148,6 +148,10 @@ export class OrganisasiService {
   private organisasi: Observable<Organisasi[]>;
   private selectedOrganisasi: Organisasi;
 
+  private usersCollection: AngularFirestoreCollection<Users>;
+  private user: Observable<Users[]>;
+  private selectedUser: Users;
+
   constructor(
     db: AngularFirestore
   ) {
@@ -162,7 +166,18 @@ export class OrganisasiService {
         });
       })
     )
-    
+
+    this.usersCollection = db.collection<Users>('users');
+
+    this.user = this.usersCollection.snapshotChanges().pipe(
+      map(actions => {
+        return actions.map( u => {
+          const data = u.payload.doc.data();
+          const id = u.payload.doc.id;
+          return {id, ...data};
+        });
+      })
+    ) 
   }
 
   getOrgs() {
@@ -191,5 +206,17 @@ export class OrganisasiService {
 
   getSelectedOrgs(){
     return this.selectedOrganisasi;
+  }
+
+  addUser(user: Users) {
+    return this.usersCollection.add(user);
+  }
+
+  setSelectedUser(resp){
+    this.selectedUser = resp;
+  }
+
+  getUser(){
+    return this.selectedUser;
   }
 }

@@ -4,6 +4,7 @@ import { ModalSignUpComponent } from '../modal-sign-up/modal-sign-up.component';
 import { NgForm } from '@angular/forms';
 import { AuthService } from './auth.service';
 import { Router } from '@angular/router';
+import { OrganisasiService } from '../organisasi/organisasi.service';
 
 @Component({
   selector: 'app-auth',
@@ -16,15 +17,18 @@ export class AuthPage implements OnInit {
     private modalCtrl: ModalController,
     private authSvc: AuthService,
     private router: Router,
-    private toastCtrl: ToastController
+    private toastCtrl: ToastController,
+    private orgService: OrganisasiService
   ) { }
 
   ngOnInit() {
   }
 
   onLogin(f: NgForm) {
+    
     this.authSvc.login(f.value.email, f.value.pwd).subscribe(resp => {
       console.log(resp);
+      this.orgService.setSelectedUser(resp);
       this.router.navigateByUrl('organisasi');
     }, err => {
       this.presentToast();

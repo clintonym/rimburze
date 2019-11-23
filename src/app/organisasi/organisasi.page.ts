@@ -4,6 +4,7 @@ import { AlertController, ToastController, ModalController } from '@ionic/angula
 import { Router } from '@angular/router';
 import { Organisasi } from './organisasi.model';
 import { ModalCreateOrganisasiComponent } from '../modal-create-organisasi/modal-create-organisasi.component';
+// import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 
 @Component({
   selector: 'app-organisasi',

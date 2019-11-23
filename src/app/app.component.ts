@@ -5,6 +5,8 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AuthService } from './auth/auth.service';
 import { Router } from '@angular/router';
+// import { AngularFireAuth } from '@angular/fire/auth';
+// import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -22,6 +24,7 @@ export class AppComponent {
     this.initializeApp();
   }
 
+  
   initializeApp() {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
@@ -33,4 +36,17 @@ export class AppComponent {
     this.authSvc.logout();
     this.router.navigateByUrl('/auth');
   }
+
+  // isLoggedIn() {
+  //   return this.fAuth.authState.pipe(first()).toPromise();
+  // }
+
+  // async doSomething(){
+  //   const user = await this.isLoggedIn()
+  //   if(user){
+  //     console.log(user.email);
+  //   }else{
+  //     console.log("gk ad");
+  //   }
+  // }
 }

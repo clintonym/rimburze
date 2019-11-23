@@ -20,6 +20,11 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ModalSignUpComponent } from './modal-sign-up/modal-sign-up.component';
 
+// import { AngularFireModule } from 'angularfire2';
+// import { AngularFireAuth } from 'angularfire2/auth';
+import { AuthService } from './auth/auth.service';
+// import { AngularFireDatabase } from 'angularfire2/database';
+
 @NgModule({
   declarations: [AppComponent, ModalOutcomeDetailComponent, ModalCreateOrganisasiComponent, ModalSignUpComponent, PopoverComponent],
   entryComponents: [ModalOutcomeDetailComponent, ModalCreateOrganisasiComponent, ModalSignUpComponent, PopoverComponent],
@@ -27,6 +32,7 @@ import { ModalSignUpComponent } from './modal-sign-up/modal-sign-up.component';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule, FormsModule],
   providers: [
+    AuthService,
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
