@@ -23,10 +23,9 @@ export class ModalCreateOrganisasiComponent implements OnInit {
 
   ngOnInit() {
     this.selectedOrgs = {
-      id: '',
       name: '',
       password: '',
-      year: '',
+      year: new Date().getFullYear(),
       history: [],
       outcome: []
     }
@@ -58,6 +57,8 @@ export class ModalCreateOrganisasiComponent implements OnInit {
       loading.dismiss();
       this.onCancel();
     })
+
+    
   }
 
 }

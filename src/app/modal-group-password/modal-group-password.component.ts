@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Organisasi } from '../organisasi/organisasi.model';
+import { Organisasi, Users } from '../organisasi/organisasi.model';
 import { ModalController, ToastController } from '@ionic/angular';
 import { OrganisasiService } from '../organisasi/organisasi.service';
 import { Router } from '@angular/router';
@@ -12,7 +12,8 @@ export class ModalGroupPasswordComponent implements OnInit {
   @Input() selectedOrgs: Organisasi;
 
   enterPwd: string;
-  
+  @Input() user: Users;
+
   constructor(
     private modalCtrl: ModalController, 
     private orgService:OrganisasiService, 
@@ -20,7 +21,8 @@ export class ModalGroupPasswordComponent implements OnInit {
     private toastCtrl: ToastController) { }
 
   ngOnInit() {
-    
+    this.user = this.orgService.getUser();
+    console.log(this.user);
   }
 
   onCancel() {

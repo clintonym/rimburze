@@ -1,27 +1,27 @@
 export interface Organisasi {
-    id: string,
+    //id: string,
     name: string,
     password: string,
-    year: string,
+    year: number,
     history: History[],
     outcome: Outcome[]
 }
 
 export interface Outcome {
-    id: string,
+    //id: string,
     name: string,
     obj: Obj[]
 }
 
 export interface Obj {
-    id: string,
+    //id: string,
     objName: string,
     price: number,
     date: string
 }
 
 export interface History {
-    id: string,
+    //id: string,
     name: string,
     date: string,
     total: number

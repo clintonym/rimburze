@@ -2,9 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { OrganisasiService } from './organisasi.service';
 import { AlertController, ToastController, ModalController } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { Organisasi } from './organisasi.model';
+import { Organisasi, Users } from './organisasi.model';
 import { ModalCreateOrganisasiComponent } from '../modal-create-organisasi/modal-create-organisasi.component';
 import { ModalGroupPasswordComponent } from '../modal-group-password/modal-group-password.component';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 // import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 
 @Component({
@@ -15,20 +18,41 @@ import { ModalGroupPasswordComponent } from '../modal-group-password/modal-group
 export class OrganisasiPage implements OnInit {
 
   loadedOrgs: Organisasi[];
-
+  private orgsCollection: AngularFirestoreCollection<Organisasi>;
+  private organisasi: Observable<Organisasi[]>;
+  user: Users;
+  
   constructor(
     private orgsService: OrganisasiService,
     private alertCtrl: AlertController,
     private router: Router,
     private toastController: ToastController,
-    private modalCtrl: ModalController
-  ) { }
+    private modalCtrl: ModalController,
+    private db: AngularFirestore
+  ) { 
+    // this.organisasi = this.orgsCollection.snapshotChanges().pipe(
+    //   map(actions => {
+    //     return actions.map(a => {
+    //       const data = a.payload.doc.data();
+    //       const id = a.payload.doc.id;
+    //       return { id, ...data };
+    //     });
+    //   })
+    // )
+    // this.organisasi.subscribe(docs => {
+    //   docs.forEach(doc => {
+    //     console.log(doc.id);
+    //   })
+    // })
+  }
 
   ngOnInit() {
+    this.user = this.orgsService.getUser();
     this.orgsService.getOrgs().subscribe(res => {
       this.loadedOrgs = res;
+      console.log(this.loadedOrgs);
     });
-
+    console.log(this.user);
   }
 
   async selectOrgs(org: Organisasi){
