@@ -8,7 +8,7 @@ import { PopoverComponent } from 'src/app/popover/popover.component';
 import { Observable } from 'rxjs';
 import { tokenName } from '@angular/compiler';
 import * as firebase from 'firebase';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-outcome',
@@ -23,7 +23,8 @@ export class OutcomePage implements OnInit {
   loadedOutcome: Outcome[];
   oc: Outcome;
   ref: any;
-  
+  outcome: any;
+  //loadOutcomes: any;
 
   constructor(
     private activatedOrgs: ActivatedRoute,
@@ -31,15 +32,33 @@ export class OutcomePage implements OnInit {
     private modalCtrl: ModalController,
     private router: Router,
     private popoverCtrl: PopoverController,
-    private actvRoute: ActivatedRoute
-  ) { }
+    private actvRoute: ActivatedRoute,
+    private db: AngularFirestore,
+    // private addUserCollection: AngularFirestoreDocument<Outcome>,
+  ) {
+    this.orgId = this.actvRoute.snapshot.params['organisasiId'];
+    console.log("Constructor orgID: " + this.orgId);
+    this.user = this.orgsService.getUser();
+    console.log("Constructor user: " + this.user.email);
+    this.outcome = {}
+    this.oc = {
+      name: this.user.displayName,
+      obj: []
+    }
+    this.outcome['outcome'] = this.oc;
+    console.log("Constructor OC: " + this.oc.name);
+    db.collection('organisasi').doc(this.orgId).set(this.outcome).then(function () {
+      console.log("updated");
+    });
+  }
 
   ngOnInit() {
     this.loadedOrgs = this.orgsService.getSelectedOrgs();
     this.user = this.orgsService.getUser();
-    this.orgId = this.actvRoute.snapshot.params['organisasiId'];
-
-    console.log(this.orgId);
+    //this.orgId = this.actvRoute.snapshot.params['organisasiId'];
+    // this.loadOutcomes = this.orgsService.getOutcomes(this.orgId);
+    // console.log("nama: " + this.loadOutcomes);
+    // console.log(this.orgId);
     
   }
 
@@ -51,17 +70,19 @@ export class OutcomePage implements OnInit {
         console.log("ada");
       }
       else {
-        console.log("belum ada");
-        this.oc = {
-          name: this.user.displayName,
-          obj: []
-        }
-        console.log(this.oc);
-        this.orgsService.addUserOutcome(this.orgId,this.oc);
-        
+        console.log("belum ada ");
       }
       console.log(this.loadedOutcome[i].name);
     }
+  }
+
+  addUserOnClick() {
+    this.oc = {
+      name: this.user.displayName,
+      obj: []
+    }
+    console.log(this.oc);
+    this.orgsService.addUserOutcome(this.oc);
   }
 
   async modalOnClick(orgs: Outcome) {

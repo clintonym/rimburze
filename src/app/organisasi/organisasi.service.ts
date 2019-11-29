@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Organisasi, Users, Outcome } from './organisasi.model';
 import { map } from 'rxjs/operators';
-import { AngularFirestoreCollection, AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestoreCollection, AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { fromBytesBE } from 'long';
 
@@ -152,8 +152,14 @@ export class OrganisasiService {
   private user: Observable<Users[]>;
   private selectedUser: Users;
 
-  private outcome: any;
+  private addUserCollection: AngularFirestoreDocument<Outcome>;
+  private outcome: Observable<Outcome[]>;
+  private addedUser: Outcome;
+
   private OrgId: any;
+
+  private path: any;
+  private dbUser: AngularFirestore;
 
   constructor(
     db: AngularFirestore
@@ -163,8 +169,12 @@ export class OrganisasiService {
     this.organisasi = this.orgsCollection.snapshotChanges().pipe(
       map(actions => {
         return actions.map(a => {
+          this.path = a.payload.doc.ref.path;
           const data = a.payload.doc.data();
           const id = a.payload.doc.id;
+          this.OrgId = id;
+          console.log("PATH: " + this.path);
+          console.log("OrgID: " + this.OrgId);
           return { id, ...data };
         });
       })
@@ -180,9 +190,7 @@ export class OrganisasiService {
           return {id, ...data};
         });
       })
-    ) 
-
-    
+    )
   }
 
   getOrgs() {
@@ -201,9 +209,9 @@ export class OrganisasiService {
     return this.orgsCollection.add(orgs);
   }
 
-  joinOrg(id,password){
-    this.orgsCollection.doc<Organisasi>(id).collection('password',password);
-  }
+  // joinOrg(id,password){
+  //   this.orgsCollection.doc<Organisasi>(id).collection('password',password);
+  // }
 
   removeOrgs(organisasiId) {
     return this.orgsCollection.doc(organisasiId).delete();
@@ -216,6 +224,10 @@ export class OrganisasiService {
   getSelectedOrgs(){
     return this.selectedOrganisasi;
   }
+  
+  // getOutcomes(id){
+  //   return this.orgsCollection.doc<Organisasi>(id).collection('outcomes');
+  // }
 
   addUser(user: Users) {
     return this.usersCollection.add(user);
@@ -229,9 +241,11 @@ export class OrganisasiService {
     return this.selectedUser;
   }
 
-  addUserOutcome(id, oc) {
-    return this.orgsCollection.doc(id).collection('outcome').add(oc);
-    
-    
+  addUserOutcome(oc) {
+    return this.orgsCollection.doc(this.OrgId).collection('outcome').add(oc);
+  }
+
+  tambahUser(oc) {
+    return this.dbUser.doc<Organisasi>(this.OrgId).set(oc);
   }
 }
