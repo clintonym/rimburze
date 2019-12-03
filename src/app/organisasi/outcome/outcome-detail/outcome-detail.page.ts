@@ -1,86 +1,81 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Outcome, Obj, Organisasi } from '../organisasi/organisasi.model';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { OrganisasiService } from '../../organisasi.service';
 import { ModalController, AlertController, ToastController } from '@ionic/angular';
-import { Router, ActivatedRoute } from '@angular/router';
-import * as firebase from 'firebase';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
+import { Organisasi, Outcome, Obj } from '../../organisasi.model';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import * as firebase from 'firebase';
 
 @Component({
-  selector: 'app-modal-outcome-detail',
-  templateUrl: './modal-outcome-detail.component.html',
-  styleUrls: ['./modal-outcome-detail.component.scss'],
+  selector: 'app-outcome-detail',
+  templateUrl: './outcome-detail.page.html',
+  styleUrls: ['./outcome-detail.page.scss'],
 })
-export class ModalOutcomeDetailComponent implements OnInit {
+export class OutcomeDetailPage implements OnInit {
 
-  @Input() selectedOrgs: Outcome;
+  private objCollection: AngularFirestoreCollection<Obj>;
+  private obj: Observable<Obj[]>;
+
+  loadedObj: Obj[];
+  loadedOutcome: Outcome;
+
   orgId = null;
-  ocId = null;
-
-  private outcomeCollection: AngularFirestoreCollection<Outcome>;
-  private outcome: Observable<Outcome[]>;
-  
-  selectedObj: Obj[];
+  outcomeId = null;
 
   constructor(
+    private actvRoute: ActivatedRoute,
+    private activatedOrgs: ActivatedRoute,
+    private orgsService: OrganisasiService,
     private modalCtrl: ModalController,
     private alertCtrl: AlertController,
     private toastCtrl: ToastController,
     private router: Router,
-    private actvRoute: ActivatedRoute,
-    private db: AngularFirestore
+    private db: AngularFirestore,
   ) { 
     this.orgId = this.actvRoute.snapshot.params['organisasiId'];
+    this.outcomeId = this.actvRoute.snapshot.params['outcomeId'];
+    console.log("Outcome Id: " + this.outcomeId);
+
+    this.objCollection = db.collection<Organisasi>('organisasi').doc(this.orgId).collection<Outcome>('outcome').doc(this.outcomeId).collection('obj');
     
-    this.outcomeCollection = db.collection<Organisasi>('organisasi').doc(this.orgId).collection<Outcome>('outcome');
-    
-    this.outcome = this.outcomeCollection.snapshotChanges().pipe(
+    this.obj = this.objCollection.snapshotChanges().pipe(
       map(actions => {
         return actions.map(a => {
           const data = a.payload.doc.data();
           const id = a.payload.doc.id;
-          this.ocId = id;
           return { id, ...data };
         });
       })
     )
-    console.log("OC ID: " + this.ocId);
-
-    // this.objCollection = db.collection<Organisasi>('organisasi').doc(this.orgId).collection<Outcome>('outcome').doc(this.selectedOrgs.id).collection('obj');
-    
-    // this.outcome = this.outcomeCollection.snapshotChanges().pipe(
-    //   map(actions => {
-    //     return actions.map(a => {
-    //       const data = a.payload.doc.data();
-    //       const id = a.payload.doc.id;
-    //       return { id, ...data };
-    //     });
-    //   })
-    // )
-    // this.listLength = 0;
-    // this.outcome.subscribe(res => {
-    //   this.outcome2 = res;
-    //   this.listLength = res.length;
-    // });
   }
 
   ngOnInit() {
-    this.orgId = this.actvRoute.snapshot.params['organisasiId'];
-    // this.user = this.orgsService.getUser();
+    this.loadedOutcome = this.orgsService.getOutcome();
   }
 
-  onCancel() {
-    this.modalCtrl.dismiss(null, 'cancel');
+  ionViewWillEnter(){
+    this.loadedOutcome = this.orgsService.getOutcome();
+    this.obj.subscribe(res => {
+      this.loadedObj = res;
+    });
+    console.log("Loaded OBJ: " + this.loadedObj);
   }
 
   getTotalPrice() {
     let sumVal = 0;
-    for(let item of this.selectedOrgs.obj) {
-      sumVal += item.price;
+    if(!this.loadedObj) {
+
     }
-    console.log(sumVal);
-    return sumVal;
+    else if(this.loadedObj) {
+      for(let item of this.loadedObj) {
+        sumVal = +sumVal + +item.price;
+      }
+      console.log(sumVal);
+      return sumVal;
+    }
+    
   }
 
   async addOnClick() {
@@ -106,7 +101,7 @@ export class ModalOutcomeDetailComponent implements OnInit {
           text: 'Submit',
           handler: data => {
             firebase.firestore()
-            .collection('organisasi').doc(this.orgId).collection('outcome').doc(this.selectedOrgs.id).collection('obj').add(
+            .collection('organisasi').doc(this.orgId).collection('outcome').doc(this.outcomeId).collection('obj').add(
               { 
                 objName: data.inpName,
                 price: data.inpPrice,

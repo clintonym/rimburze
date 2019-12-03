@@ -14,7 +14,16 @@ const routes: Routes = [
       },
       {
         path: ':organisasiId',
-        loadChildren: './organisasi/outcome/outcome.module#OutcomePageModule'
+        children: [
+          {
+            path: '',
+            loadChildren: './organisasi/outcome/outcome.module#OutcomePageModule'  
+          },
+          {
+            path:':outcomeId',
+            loadChildren: './organisasi/outcome/outcome-detail/outcome-detail.module#OutcomeDetailPageModule'
+          }
+        ]
       }
     ]
   },

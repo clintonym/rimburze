@@ -8,7 +8,9 @@ import { PopoverComponent } from 'src/app/popover/popover.component';
 import { Observable } from 'rxjs';
 import { tokenName } from '@angular/compiler';
 import * as firebase from 'firebase';
-import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection } from '@angular/fire/firestore';
+import { map } from 'rxjs/operators';
+import { SSL_OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION } from 'constants';
 
 @Component({
   selector: 'app-outcome',
@@ -17,14 +19,19 @@ import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firest
 })
 export class OutcomePage implements OnInit {
 
+  private outcomeCollection: AngularFirestoreCollection<Outcome>;
+  private outcome: Observable<Outcome[]>;
+
   loadedOrgs: Organisasi;
-  user: Users;
+  user: any;
   orgId = null;
+  tombolAdd = false;
   loadedOutcome: Outcome[];
   oc: Outcome;
   ref: any;
-  outcome: any;
-  //loadOutcomes: any;
+  outcome2: Outcome[];
+  listLength: any;
+  ada = false;
 
   constructor(
     private activatedOrgs: ActivatedRoute,
@@ -34,64 +41,84 @@ export class OutcomePage implements OnInit {
     private popoverCtrl: PopoverController,
     private actvRoute: ActivatedRoute,
     private db: AngularFirestore,
-    // private addUserCollection: AngularFirestoreDocument<Outcome>,
   ) {
     this.orgId = this.actvRoute.snapshot.params['organisasiId'];
-    console.log("Constructor orgID: " + this.orgId);
-    this.user = this.orgsService.getUser();
-    console.log("Constructor user: " + this.user.email);
-    this.outcome = {}
-    this.oc = {
-      name: this.user.displayName,
-      obj: []
-    }
-    this.outcome['outcome'] = this.oc;
-    console.log("Constructor OC: " + this.oc.name);
-    db.collection('organisasi').doc(this.orgId).set(this.outcome).then(function () {
-      console.log("updated");
+
+    this.outcomeCollection = db.collection<Organisasi>('organisasi').doc(this.orgId).collection<Outcome>('outcome');
+    
+    this.outcome = this.outcomeCollection.snapshotChanges().pipe(
+      map(actions => {
+        return actions.map(a => {
+          const data = a.payload.doc.data();
+          const id = a.payload.doc.id;
+          return { id, ...data };
+        });
+      })
+    )
+    this.listLength = 0;
+    this.outcome.subscribe(res => {
+      this.outcome2 = res;
+      this.listLength = res.length;
+      return this.cekUser(this.outcome2);
     });
+
   }
 
   ngOnInit() {
     this.loadedOrgs = this.orgsService.getSelectedOrgs();
     this.user = this.orgsService.getUser();
-    //this.orgId = this.actvRoute.snapshot.params['organisasiId'];
-    // this.loadOutcomes = this.orgsService.getOutcomes(this.orgId);
-    // console.log("nama: " + this.loadOutcomes);
-    // console.log(this.orgId);
-    
+    this.orgId = this.actvRoute.snapshot.params['organisasiId'];
+  }
+  
+  ionViewWillEnter() {
+    this.loadedOrgs = this.orgsService.getSelectedOrgs();
+    this.user = this.orgsService.getUser();
+    this.orgId = this.actvRoute.snapshot.params['organisasiId'];
   }
 
-  ionViewWillEnter(){
-    var i;
-    for(i=0; i<this.loadedOrgs.outcome.length; i++) {
-      this.loadedOutcome = this.loadedOrgs.outcome;
-      if(this.user.displayName == this.loadedOutcome[i].name) {
+  cekUser(oc) {    
+    for(let v of oc) {
+      if(this.user.displayName == v.name) {
         console.log("ada");
+        this.ada = true;
       }
-      else {
-        console.log("belum ada ");
+      else if(this.user.displayName != v.name) {
+        this.ada = this.ada;
+        console.log("belum ada");
       }
-      console.log(this.loadedOutcome[i].name);
+      if(this.ada == true) {
+        this.tombolAdd = false;
+      }
+      else if(this.ada == false) {
+        this.tombolAdd = true;
+      }
     }
   }
-
+  
   addUserOnClick() {
-    this.oc = {
-      name: this.user.displayName,
-      obj: []
-    }
-    console.log(this.oc);
-    this.orgsService.addUserOutcome(this.oc);
+    firebase.firestore()
+    .collection('organisasi').doc(this.orgId).collection('outcome').add(
+      { 
+        name: this.user.displayName,
+        obj: []
+      },
+    ).then(function() {
+      console.log("updated");
+    });
   }
 
   async modalOnClick(orgs: Outcome) {
     const modal = await this.modalCtrl.create({
       component: ModalOutcomeDetailComponent,
-      componentProps: {selectedOrgs: orgs}
+      componentProps: { selectedOrgs: orgs, }
     });
 
     return await modal.present();
+  }
+
+  outcomeDetail(oc) {
+    this.orgsService.setOutcome(oc);
+    this.router.navigate(['/organisasi', this.orgId, oc.id]);
   }
 
   async histOnClick(orgs: Organisasi) {

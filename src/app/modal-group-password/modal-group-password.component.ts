@@ -22,7 +22,6 @@ export class ModalGroupPasswordComponent implements OnInit {
 
   ngOnInit() {
     this.user = this.orgService.getUser();
-    console.log(this.user);
   }
 
   onCancel() {
@@ -51,7 +50,7 @@ export class ModalGroupPasswordComponent implements OnInit {
           role: 'cancel'
         }
       ],
-      duration: 5000
+      duration: 2000
     });
     toast.present();
   }

@@ -152,11 +152,12 @@ export class OrganisasiService {
   private user: Observable<Users[]>;
   private selectedUser: Users;
 
-  private addUserCollection: AngularFirestoreDocument<Outcome>;
+  private outcomeCollection: AngularFirestoreCollection<Outcome>;
   private outcome: Observable<Outcome[]>;
-  private addedUser: Outcome;
+  private selectedOutcome: Outcome;
 
   private OrgId: any;
+  private OutcomeId: any;
 
   private path: any;
   private dbUser: AngularFirestore;
@@ -191,6 +192,20 @@ export class OrganisasiService {
         });
       })
     )
+
+    // this.outcomeCollection = db.collection<Organisasi>('organisasi').doc(this.OrgId).collection<Outcome>('outcome');
+    // this.outcome = this.outcomeCollection.snapshotChanges().pipe(
+    //   map(actions => {
+    //     return actions.map(a => {
+    //       this.path = a.payload.doc.ref.path;
+    //       const data = a.payload.doc.data();
+    //       const id = a.payload.doc.id;
+    //       this.OutcomeId = id;
+    //       console.log("OrgID: " + this.OutcomeId);
+    //       return { id, ...data };
+    //     });
+    //   })
+    // )
   }
 
   getOrgs() {
@@ -209,10 +224,6 @@ export class OrganisasiService {
     return this.orgsCollection.add(orgs);
   }
 
-  // joinOrg(id,password){
-  //   this.orgsCollection.doc<Organisasi>(id).collection('password',password);
-  // }
-
   removeOrgs(organisasiId) {
     return this.orgsCollection.doc(organisasiId).delete();
   }
@@ -221,13 +232,17 @@ export class OrganisasiService {
     this.selectedOrganisasi = Orgs;
   }
 
+  setOutcome(oc: Outcome) {
+    this.selectedOutcome = oc;
+  }
+
   getSelectedOrgs(){
     return this.selectedOrganisasi;
   }
-  
-  // getOutcomes(id){
-  //   return this.orgsCollection.doc<Organisasi>(id).collection('outcomes');
-  // }
+
+  getOutcome() {
+    return this.selectedOutcome;
+  }
 
   addUser(user: Users) {
     return this.usersCollection.add(user);
@@ -241,11 +256,4 @@ export class OrganisasiService {
     return this.selectedUser;
   }
 
-  addUserOutcome(oc) {
-    return this.orgsCollection.doc(this.OrgId).collection('outcome').add(oc);
-  }
-
-  tambahUser(oc) {
-    return this.dbUser.doc<Organisasi>(this.OrgId).set(oc);
-  }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Organisasi } from '../organisasi/organisasi.model';
+import { Organisasi, Users } from '../organisasi/organisasi.model';
 import { ActivatedRoute } from '@angular/router';
 import { OrganisasiService } from '../organisasi/organisasi.service';
 import { LoadingController, NavController, ModalController } from '@ionic/angular';
@@ -12,6 +12,7 @@ import { LoadingController, NavController, ModalController } from '@ionic/angula
 export class ModalCreateOrganisasiComponent implements OnInit {
 
   selectedOrgs: Organisasi;
+  user: Users;
 
   constructor(
     private route: ActivatedRoute,
@@ -22,12 +23,26 @@ export class ModalCreateOrganisasiComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.user = this.orgsService.getUser();
+    console.log(this.user);
+    console.log("NAMA: " + this.user.displayName);
     this.selectedOrgs = {
       name: '',
       password: '',
       year: new Date().getFullYear(),
       history: [],
-      outcome: []
+      outcome: [
+        {
+          name: this.user.displayName,
+          obj: [
+            {
+              objName: '',
+              price: null,
+              date: ''
+            }
+          ]
+        }
+      ]
     }
   }
 

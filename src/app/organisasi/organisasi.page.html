@@ -52,15 +52,7 @@
 </ion-content>
 
 <ion-fab horizontal="end" vertical="bottom" slot="fixed">
-  <ion-fab-button color="tertiary">
-    <ion-icon name="arrow-dropup"></ion-icon>
+  <ion-fab-button color="tertiary" (click)="createOnClick()">
+    <ion-icon name="add"></ion-icon>
   </ion-fab-button>
-  <ion-fab-list side="top">
-    <ion-fab-button color="tertiary" (click)="createOnClick()">
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-    <ion-fab-button color="tertiary">
-        <ion-icon name="log-in" (click)="joinOnClick()"></ion-icon>
-      </ion-fab-button>
-  </ion-fab-list>
 </ion-fab>

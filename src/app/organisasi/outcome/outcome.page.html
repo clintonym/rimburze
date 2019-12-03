@@ -3,30 +3,36 @@
     <ion-back-button defaultHref="/organisasi"></ion-back-button>
   </ion-buttons>
   <ion-title style="font-size: 16px;">{{ loadedOrgs.name }}</ion-title>  
-  <ion-icon slot="end" name="paper" class="iconSize" (click)="histOnClick(loadedOrgs)"></ion-icon>
+  <ion-icon slot="end" name="paper" class="iconSize" (click)="histOnClick(outcome2)"></ion-icon>
 </ion-toolbar>
 
 <ion-content>
   <ion-grid>
     <ion-row>
       <ion-col size-md="6" offset-md="3">
-        <div text-center *ngIf="loadedOrgs.outcome.length === 0" style="margin-left: auto; margin-right: auto; margin-top: 50%;">
+        <div text-center *ngIf="!outcome2 || outcome2.length == 0" style="margin-left: auto; margin-right: auto; margin-top: 50%; margin-bottom: 50%;">
           <p style="font-size: 14px; color: #989aa2;">Group is empty</p>
         </div>
-        <div *ngIf="loadedOrgs.outcome.length > 0">
-          <ion-list lines="none" *ngFor="let org of loadedOrgs.outcome">
-            <ion-card style="border-radius: 10px;" (click)="modalOnClick(org)">
+        <div *ngIf="outcome2">
+          <ion-list lines="none" *ngFor="let oc of outcome2">
+            <ion-card style="border-radius: 10px;" (click)="outcomeDetail(oc)">
               <ion-card-header>
-                <ion-card-subtitle>{{ org.name }}</ion-card-subtitle>
+                <ion-card-subtitle>{{ oc.name }}</ion-card-subtitle>
               </ion-card-header>
             </ion-card>
           </ion-list>
         </div>
       </ion-col>
     </ion-row>
+    <!-- <ion-row>
+      <div>{{ cekUser() }}</div>
+    </ion-row> -->
   </ion-grid>
 </ion-content>
 
 <ion-footer>
-  <ion-button expand="block" (click)="addUserOnClick()">Add</ion-button>
+  <div *ngIf="tombolAdd == true">
+    <ion-button expand="block" (click)="addUserOnClick()">Add</ion-button>
+  </div>
+  <div *ngIf="tombolAdd == false"></div>
 </ion-footer>
