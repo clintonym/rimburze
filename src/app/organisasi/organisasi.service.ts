@@ -256,4 +256,8 @@ export class OrganisasiService {
     return this.selectedUser;
   }
 
+  getUsers(){
+    return this.user;
+  }
+
 }

@@ -23,7 +23,7 @@ export class OutcomePage implements OnInit {
   private outcome: Observable<Outcome[]>;
 
   loadedOrgs: Organisasi;
-  user: any;
+  user: Users;
   orgId = null;
   tombolAdd = false;
   loadedOutcome: Outcome[];
@@ -78,6 +78,7 @@ export class OutcomePage implements OnInit {
 
   cekUser(oc) {    
     for(let v of oc) {
+      console.log(v.name + v.email);
       if(this.user.displayName == v.name) {
         console.log("ada");
         this.ada = true;
