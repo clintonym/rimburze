@@ -24,8 +24,6 @@ export class ModalCreateOrganisasiComponent implements OnInit {
 
   ngOnInit() {
     this.user = this.orgsService.getUser();
-    console.log(this.user);
-    console.log("NAMA: " + this.user.displayName);
     this.selectedOrgs = {
       name: '',
       password: '',
@@ -33,6 +31,7 @@ export class ModalCreateOrganisasiComponent implements OnInit {
       history: [],
       outcome: [
         {
+          email: this.user.email,
           name: this.user.displayName,
           obj: [
             {

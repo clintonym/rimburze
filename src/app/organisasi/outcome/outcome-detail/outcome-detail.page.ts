@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { OrganisasiService } from '../../organisasi.service';
 import { ModalController, AlertController, ToastController } from '@ionic/angular';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
-import { Organisasi, Outcome, Obj } from '../../organisasi.model';
+import { Organisasi, Outcome, Obj, Users } from '../../organisasi.model';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import * as firebase from 'firebase';
@@ -20,9 +20,11 @@ export class OutcomeDetailPage implements OnInit {
 
   loadedObj: Obj[];
   loadedOutcome: Outcome;
+  user: Users;
 
   orgId = null;
   outcomeId = null;
+  tombol = false;
 
   constructor(
     private actvRoute: ActivatedRoute,
@@ -34,6 +36,7 @@ export class OutcomeDetailPage implements OnInit {
     private router: Router,
     private db: AngularFirestore,
   ) { 
+    this.user = this.orgsService.getUser();
     this.orgId = this.actvRoute.snapshot.params['organisasiId'];
     this.outcomeId = this.actvRoute.snapshot.params['outcomeId'];
     console.log("Outcome Id: " + this.outcomeId);
@@ -60,7 +63,14 @@ export class OutcomeDetailPage implements OnInit {
     this.obj.subscribe(res => {
       this.loadedObj = res;
     });
-    console.log("Loaded OBJ: " + this.loadedObj);
+    
+    console.log(this.user.email + " " + this.loadedOutcome.email);
+    if(this.user.email == this.loadedOutcome.email) {
+      this.tombol = true;
+    }
+    else if(this.user.email != this.loadedOutcome.email) {
+      this.tombol = false;
+    }
   }
 
   getTotalPrice() {

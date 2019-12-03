@@ -25,7 +25,7 @@ export class OutcomePage implements OnInit {
   loadedOrgs: Organisasi;
   user: Users;
   orgId = null;
-  tombolAdd = false;
+  tombolAdd = true;
   loadedOutcome: Outcome[];
   oc: Outcome;
   ref: any;
@@ -68,6 +68,8 @@ export class OutcomePage implements OnInit {
     this.loadedOrgs = this.orgsService.getSelectedOrgs();
     this.user = this.orgsService.getUser();
     this.orgId = this.actvRoute.snapshot.params['organisasiId'];
+    
+    
   }
   
   ionViewWillEnter() {
@@ -76,14 +78,14 @@ export class OutcomePage implements OnInit {
     this.orgId = this.actvRoute.snapshot.params['organisasiId'];
   }
 
-  cekUser(oc) {    
+  cekUser(oc) {   
     for(let v of oc) {
       console.log(v.name + v.email);
-      if(this.user.displayName == v.name) {
+      if(this.user.email == v.email) {
         console.log("ada");
         this.ada = true;
       }
-      else if(this.user.displayName != v.name) {
+      else if(this.user.email != v.email) {
         this.ada = this.ada;
         console.log("belum ada");
       }
@@ -100,6 +102,7 @@ export class OutcomePage implements OnInit {
     firebase.firestore()
     .collection('organisasi').doc(this.orgId).collection('outcome').add(
       { 
+        email: this.user.email,
         name: this.user.displayName,
         obj: []
       },

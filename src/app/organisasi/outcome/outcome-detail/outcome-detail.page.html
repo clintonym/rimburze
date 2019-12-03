@@ -47,16 +47,21 @@
   </ion-grid>
 </ion-content>
 
-<ion-fab horizontal="end" vertical="bottom" slot="fixed">
-  <ion-fab-button color="tertiary">
-    <ion-icon name="arrow-dropup"></ion-icon>
-  </ion-fab-button>
-  <ion-fab-list side="top">
-    <ion-fab-button color="tertiary" (click)="addOnClick()">
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-    <ion-fab-button color="tertiary">
-        <ion-icon name="done-all" (click)="doneOnClick()"></ion-icon>
+<div *ngIf="tombol == true">
+    <ion-fab horizontal="end" vertical="bottom" slot="fixed">
+      <ion-fab-button color="tertiary">
+        <ion-icon name="arrow-dropup"></ion-icon>
       </ion-fab-button>
-  </ion-fab-list>
-</ion-fab>
+      <ion-fab-list side="top">
+        <ion-fab-button color="tertiary" (click)="addOnClick()">
+          <ion-icon name="add"></ion-icon>
+        </ion-fab-button>
+        <ion-fab-button color="tertiary">
+            <ion-icon name="done-all" (click)="doneOnClick()"></ion-icon>
+          </ion-fab-button>
+      </ion-fab-list>
+    </ion-fab>
+  </div>
+  <div *ngIf="tombol == false">
+    
+  </div>

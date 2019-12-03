@@ -9,6 +9,7 @@ export interface Organisasi {
 
 export interface Outcome {
     //id: string,
+    email: string,
     name: string,
     obj: Obj[]
 }

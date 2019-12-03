@@ -1,11 +1,12 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Outcome, Obj, Organisasi } from '../organisasi/organisasi.model';
+import { Outcome, Obj, Organisasi, Users } from '../organisasi/organisasi.model';
 import { ModalController, AlertController, ToastController } from '@ionic/angular';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as firebase from 'firebase';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { OrganisasiService } from '../organisasi/organisasi.service';
 
 @Component({
   selector: 'app-modal-outcome-detail',
@@ -17,6 +18,9 @@ export class ModalOutcomeDetailComponent implements OnInit {
   @Input() selectedOrgs: Outcome;
   orgId = null;
   ocId = null;
+  user: Users;
+  outcome2: Outcome[];
+  tombol = false;
 
   private outcomeCollection: AngularFirestoreCollection<Outcome>;
   private outcome: Observable<Outcome[]>;
@@ -29,7 +33,8 @@ export class ModalOutcomeDetailComponent implements OnInit {
     private toastCtrl: ToastController,
     private router: Router,
     private actvRoute: ActivatedRoute,
-    private db: AngularFirestore
+    private db: AngularFirestore,
+    private orgService: OrganisasiService
   ) { 
     this.orgId = this.actvRoute.snapshot.params['organisasiId'];
     
@@ -45,7 +50,7 @@ export class ModalOutcomeDetailComponent implements OnInit {
         });
       })
     )
-    console.log("OC ID: " + this.ocId);
+    
 
     // this.objCollection = db.collection<Organisasi>('organisasi').doc(this.orgId).collection<Outcome>('outcome').doc(this.selectedOrgs.id).collection('obj');
     
@@ -67,8 +72,18 @@ export class ModalOutcomeDetailComponent implements OnInit {
 
   ngOnInit() {
     this.orgId = this.actvRoute.snapshot.params['organisasiId'];
-    // this.user = this.orgsService.getUser();
+    this.user = this.orgService.getUser();
+    console.log(this.user.email + " " + this.selectedOrgs.email);
+    if(this.user.email == this.selectedOrgs.email) {
+      console.log("orang ini");
+      this.tombol = true;
+    }
+    else if(this.user.email != this.selectedOrgs.email) {
+      this.tombol = false;
+    }
   }
+  
+  
 
   onCancel() {
     this.modalCtrl.dismiss(null, 'cancel');
