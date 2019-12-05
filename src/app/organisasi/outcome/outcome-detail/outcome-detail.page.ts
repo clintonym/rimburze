@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OrganisasiService } from '../../organisasi.service';
-import { ModalController, AlertController, ToastController } from '@ionic/angular';
+import { ModalController, AlertController, ToastController, LoadingController } from '@ionic/angular';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { Organisasi, Outcome, Obj, Users } from '../../organisasi.model';
 import { Observable } from 'rxjs';
@@ -35,6 +35,7 @@ export class OutcomeDetailPage implements OnInit {
     private toastCtrl: ToastController,
     private router: Router,
     private db: AngularFirestore,
+    private loadingCtrl: LoadingController
   ) { 
     this.user = this.orgsService.getUser();
     this.orgId = this.actvRoute.snapshot.params['organisasiId'];
@@ -56,10 +57,6 @@ export class OutcomeDetailPage implements OnInit {
 
   ngOnInit() {
     this.loadedOutcome = this.orgsService.getOutcome();
-  }
-
-  ionViewWillEnter(){
-    this.loadedOutcome = this.orgsService.getOutcome();
     this.obj.subscribe(res => {
       this.loadedObj = res;
     });
@@ -71,6 +68,67 @@ export class OutcomeDetailPage implements OnInit {
     else if(this.user.email != this.loadedOutcome.email) {
       this.tombol = false;
     }
+  }
+
+  // ionViewWillEnter(){
+  //   this.loadedOutcome = this.orgsService.getOutcome();
+  //   this.obj.subscribe(res => {
+  //     this.loadedObj = res;
+  //   });
+    
+  //   console.log(this.user.email + " " + this.loadedOutcome.email);
+  //   if(this.user.email == this.loadedOutcome.email) {
+  //     this.tombol = true;
+  //   }
+  //   else if(this.user.email != this.loadedOutcome.email) {
+  //     this.tombol = false;
+  //   }
+  // }
+
+  // ionViewDidLoad(){
+
+  // }
+
+  async deleteObj(obj){
+    const alert = await this.alertCtrl.create({
+      header: 'Delete Item',
+      message: 'Are you sure want to delete \"' + obj.objName + '\"?',
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel',
+        },
+        {
+          text: 'Yes',
+          handler: () => {
+            firebase.firestore()
+            .collection('organisasi').doc(this.orgId).collection('outcome').doc(this.outcomeId)
+            .collection('obj').doc(obj.id).delete()
+            .then( function() {
+              console.log("Obj successfully deleted!");
+            }).catch(function(error) {
+              console.error("Error removing Obj: ", error);
+            });
+          }
+        }
+      ]
+    });
+    await alert.present();
+
+    // console.log("MASUK DELETE");
+    // this.loadedObj = this.loadedObj.filter(o =>{
+    //   console.log("db obj with id: " + objId + " deleted")
+    //   return o.id !== objId;
+    // })
+    // // this.deleteLoading();
+    // firebase.firestore()
+    // .collection('organisasi').doc(this.orgId).collection('outcome').doc(this.outcomeId)
+    // .collection('obj').doc(objId).delete()
+    // .then( function() {
+    //   console.log("Obj successfully deleted!");
+    // }).catch(function(error) {
+    //   console.error("Error removing Obj: ", error);
+    // });
   }
 
   getTotalPrice() {
@@ -110,6 +168,7 @@ export class OutcomeDetailPage implements OnInit {
         {
           text: 'Submit',
           handler: data => {
+            // this.addLoading();
             firebase.firestore()
             .collection('organisasi').doc(this.orgId).collection('outcome').doc(this.outcomeId).collection('obj').add(
               { 
