@@ -35,13 +35,13 @@ export class ModalGroupPasswordComponent implements OnInit {
       this.modalCtrl.dismiss(null, 'cancel');
     }
     else{
-      this.presentToast();
+      this.passwordToast();
     }
     // this.orgService.joinOrg(org.id,password);
     // this.orgService.setSelectedOrgs(org);
     // this.router.navigate(['/organisasi', org.id]);
   }
-  async presentToast() {
+  async passwordToast() {
     const toast = await this.toastCtrl.create({
       message: 'Wrong password',
       buttons: [

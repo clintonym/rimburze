@@ -37,30 +37,49 @@ export class ModalSignUpComponent implements OnInit {
 
   onSignUp(f: NgForm) {
 
-    for(let u of this.allUser) {
-      console.log(f.value.email + u.email);
-      if(f.value.email == u.email) {
-       // console.log("ada");
-        this.ada = true;
+    if(f.value.confirmPwd != f.value.pwd) {
+      this.passwordToast();
+    }
+    else if(f.value.confirmPwd == f.value.pwd) {
+      for(let u of this.allUser) {
+        console.log(f.value.email + u.email);
+        if(f.value.email == u.email) {
+        // console.log("ada");
+          this.ada = true;
+        }
+        else if(f.value.email != u.email) {
+          this.ada = this.ada;
+        //console.log("belum ada");
+        }
       }
-      else if(f.value.email != u.email) {
-        this.ada = this.ada;
-       //console.log("belum ada");
+      if(this.ada == true) {
+        console.log("ada");
+        this.createToast();
+      }
+      else if(this.ada == false) {
+        console.log("blm ada");
+        this.orgService.addUser(this.selectedUser);
+        this.authSvc.signup(f.value.email, f.value.pwd,f.value.name).subscribe(resp => {
+          console.log(resp);
+          this.presentLoading();
+          this.modalCtrl.dismiss();
+        });
       }
     }
-    if(this.ada == true) {
-      console.log("ada");
-      this.createToast();
-    }
-    else if(this.ada == false) {
-      console.log("blm ada");
-      this.orgService.addUser(this.selectedUser);
-      this.authSvc.signup(f.value.email, f.value.pwd,f.value.name).subscribe(resp => {
-        console.log(resp);
-        this.presentLoading();
-        this.modalCtrl.dismiss();
-      });
-    }
+  }
+
+  async passwordToast() {
+    const toast = await this.toastCtrl.create({
+      message: 'Password didn\'t match',
+      buttons: [
+        {
+          text: 'Close',
+          role: 'cancel'
+        }
+      ],
+      duration: 2000
+    });
+    toast.present();
   }
 
   ionViewDidLoad(){

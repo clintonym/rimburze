@@ -14,25 +14,26 @@
           <p style="font-size: 14px; color: #989aa2;">Group is empty</p>
         </div>
         <div *ngIf="outcome2">
-          <ion-list lines="none" *ngFor="let oc of outcome2">
-            <ion-card style="border-radius: 10px;" (click)="outcomeDetail(oc)">
-              <ion-card-header>
-                <ion-card-subtitle>{{ oc.name }}</ion-card-subtitle>
-              </ion-card-header>
-            </ion-card>
+          <ion-list>
+            <ion-list-header>
+              MEMBERS
+            </ion-list-header>
+            <ion-item lines="full" (click)="outcomeDetail(oc)" *ngFor="let oc of outcome2">
+              <ion-label>
+                <p style="font-size: 13px;">{{ oc.name }}</p>
+                <p style="font-size: 12px;">{{ oc.email }}</p>
+              </ion-label>
+            </ion-item>
           </ion-list>
         </div>
       </ion-col>
     </ion-row>
-    <!-- <ion-row>
-      <div>{{ cekUser() }}</div>
-    </ion-row> -->
   </ion-grid>
 </ion-content>
 
-<ion-footer>
+<ion-footer lines="none">
   <div *ngIf="tombolAdd == true">
-    <ion-button expand="block" (click)="addUserOnClick()">Add</ion-button>
+    <ion-button expand="full" (click)="addUserOnClick()">Join</ion-button>
   </div>
   <div *ngIf="tombolAdd == false"></div>
 </ion-footer>

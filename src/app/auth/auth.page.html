@@ -16,8 +16,8 @@
           <ion-col>
             <form #f="ngForm" (ngSubmit)="onLogin(f)">
               <ion-item style="width: 250px; margin-left: auto; margin-right: auto;">
-                <ion-label style="font-size: 12px;" position="floating">email</ion-label>
-                <ion-input style="font-size: 12px;"
+                <ion-label style="font-size: 13px;" position="floating">email</ion-label>
+                <ion-input style="font-size: 13px;"
                   required
                   ngModel
                   name="email"
@@ -25,8 +25,8 @@
                 ></ion-input>
               </ion-item>
               <ion-item style="width: 250px; margin-left: auto; margin-right: auto;">
-                <ion-label style="font-size: 12px;" position="floating">password</ion-label>
-                <ion-input style="font-size: 12px;"
+                <ion-label style="font-size: 13px;" position="floating">password</ion-label>
+                <ion-input style="font-size: 13px;"
                   required
                   ngModel
                   name="pwd"
@@ -34,8 +34,8 @@
                   minlength="6"
                 ></ion-input>
               </ion-item>
-              <ion-button color="tertiary" [disabled]="!f.valid" type="submit" style="font-size: 11px; width: 250px; margin-left: auto; margin-right: auto; margin-top: 10px;" expand="block">Sign in</ion-button>
-              <ion-button color="danger" expand="block" style="font-size: 11px; width: 250px; margin-left: auto; margin-right: auto; margin-top: 10px;" fill="outline" (click)="modalSignUp()">Sign Up</ion-button>
+              <ion-button color="tertiary" [disabled]="!f.valid" type="submit" style="font-size: 12px; width: 250px; margin-left: auto; margin-right: auto; margin-top: 10px;" expand="block">Sign in</ion-button>
+              <ion-button color="danger" expand="block" style="font-size: 12px; width: 250px; margin-left: auto; margin-right: auto; margin-top: 10px;" fill="outline" (click)="modalSignUp()">Sign Up</ion-button>
             </form>
           </ion-col>
         </ion-row>

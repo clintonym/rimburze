@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Organisasi, Users } from '../organisasi/organisasi.model';
 import { ActivatedRoute } from '@angular/router';
 import { OrganisasiService } from '../organisasi/organisasi.service';
-import { LoadingController, NavController, ModalController } from '@ionic/angular';
+import { LoadingController, NavController, ModalController, ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-modal-create-organisasi',
@@ -19,7 +19,8 @@ export class ModalCreateOrganisasiComponent implements OnInit {
     private orgsService: OrganisasiService,
     private loadingCtrl: LoadingController,
     private navCtrl: NavController,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private toastCtrl: ToastController,
   ) {}
 
   ngOnInit() {
@@ -49,18 +50,6 @@ export class ModalCreateOrganisasiComponent implements OnInit {
     this.modalCtrl.dismiss(null, 'cancel');
   }
 
-  // async loadedOrgs() {
-  //   const loading = await this.loadingCtrl.create({
-  //     message: 'Loading...'
-  //   });
-  //   await loading.present();
-    
-  //   this.orgsService.getOrg(this.organisasiId).subscribe(res => {
-  //     loading.dismiss();
-  //     this.orgs = res;
-  //   })
-  // }
-
   async createGroup() {
     const loading = await this.loadingCtrl.create({
       message: 'Creating Group...'
@@ -70,9 +59,22 @@ export class ModalCreateOrganisasiComponent implements OnInit {
     this.orgsService.addOrgs(this.selectedOrgs).then(() => {
       loading.dismiss();
       this.onCancel();
+      this.groupCreatedToast();
     })
+  }
 
-    
+  async groupCreatedToast() {
+    const toast = await this.toastCtrl.create({
+      message: 'Group created',
+      buttons: [
+        {
+          text: 'Close',
+          role: 'cancel'
+        }
+      ],
+      duration: 2000
+    });
+    toast.present();
   }
 
 }

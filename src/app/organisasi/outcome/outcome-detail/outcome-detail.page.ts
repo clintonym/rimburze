@@ -70,32 +70,13 @@ export class OutcomeDetailPage implements OnInit {
     }
   }
 
-  // ionViewWillEnter(){
-  //   this.loadedOutcome = this.orgsService.getOutcome();
-  //   this.obj.subscribe(res => {
-  //     this.loadedObj = res;
-  //   });
-    
-  //   console.log(this.user.email + " " + this.loadedOutcome.email);
-  //   if(this.user.email == this.loadedOutcome.email) {
-  //     this.tombol = true;
-  //   }
-  //   else if(this.user.email != this.loadedOutcome.email) {
-  //     this.tombol = false;
-  //   }
-  // }
-
-  // ionViewDidLoad(){
-
-  // }
-
   async deleteObj(obj){
     const alert = await this.alertCtrl.create({
       header: 'Delete Item',
       message: 'Are you sure want to delete \"' + obj.objName + '\"?',
       buttons: [
         {
-          text: 'No',
+          text: 'Cancel',
           role: 'cancel',
         },
         {
@@ -114,21 +95,20 @@ export class OutcomeDetailPage implements OnInit {
       ]
     });
     await alert.present();
+  }
 
-    // console.log("MASUK DELETE");
-    // this.loadedObj = this.loadedObj.filter(o =>{
-    //   console.log("db obj with id: " + objId + " deleted")
-    //   return o.id !== objId;
-    // })
-    // // this.deleteLoading();
-    // firebase.firestore()
-    // .collection('organisasi').doc(this.orgId).collection('outcome').doc(this.outcomeId)
-    // .collection('obj').doc(objId).delete()
-    // .then( function() {
-    //   console.log("Obj successfully deleted!");
-    // }).catch(function(error) {
-    //   console.error("Error removing Obj: ", error);
-    // });
+  async toastDelete() {
+    const toast = await this.toastCtrl.create({
+      message:  '\"' + this.loadedObj + '\" has been deleted',
+      buttons: [
+        {
+          text: 'Close',
+          role: 'cancel'
+        }
+      ],
+      duration: 2000
+    });
+    toast.present();
   }
 
   getTotalPrice() {
@@ -140,7 +120,6 @@ export class OutcomeDetailPage implements OnInit {
       for(let item of this.loadedObj) {
         sumVal = +sumVal + +item.price;
       }
-      console.log(sumVal);
       return sumVal;
     }
     
@@ -148,6 +127,7 @@ export class OutcomeDetailPage implements OnInit {
 
   async addOnClick() {
     const alert = await this.alertCtrl.create({
+      header: 'Add item',
       message: 'What was the last item you bought?',
       inputs: [
         {
@@ -166,7 +146,7 @@ export class OutcomeDetailPage implements OnInit {
           role: 'cancel',
         },
         {
-          text: 'Submit',
+          text: 'Add',
           handler: data => {
             // this.addLoading();
             firebase.firestore()
@@ -191,17 +171,17 @@ export class OutcomeDetailPage implements OnInit {
   async doneOnClick() {
     const alert = await this.alertCtrl.create({
       header: 'Reimburse',
-      message: 'Are you sure want to close the receipt? did you got paid?',
+      message: 'Are you sure want to close the receipt? You will not be able to add another item.',
       buttons: [
         {
           text: 'Cancel',
           role: 'cancel',
         },
         {
-          text: 'Yes, and I want to close it',
+          text: 'Yes',
           handler: () => {
             this.router.navigate(['/organisasi']);
-            this.presentToast();
+            this.toastDone();
           }
         }
       ]
@@ -209,7 +189,7 @@ export class OutcomeDetailPage implements OnInit {
     await alert.present();
   }
 
-  async presentToast() {
+  async toastDone() {
     const toast = await this.toastCtrl.create({
       message: 'Thank you',
       position: 'bottom',

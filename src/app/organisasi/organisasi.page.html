@@ -14,7 +14,7 @@
             <ion-list-header>
               GROUPS
             </ion-list-header>
-            <ion-item *ngFor="let n of [0,1,2]">
+            <ion-item lines="full" *ngFor="let n of [0,1,2,3,4]">
               <ion-avatar slot="start">
                 <ion-skeleton-text animated class="fake-skeleton"></ion-skeleton-text>
               </ion-avatar>
@@ -35,7 +35,7 @@
               GROUPS
             </ion-list-header>
             <!-- <ion-item lines="none" (click)="orgsOnClick(org.id)" *ngFor="let org of loadedOrgs"> -->
-            <ion-item lines="none" (click)="selectOrgs(org)" *ngFor="let org of loadedOrgs">
+            <ion-item lines="full" (click)="selectOrgs(org)" *ngFor="let org of loadedOrgs">
               <ion-avatar slot="start">
                 <img src="./assets/icon/rimburze_logo.png">
               </ion-avatar>

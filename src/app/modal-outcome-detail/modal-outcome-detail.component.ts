@@ -82,8 +82,6 @@ export class ModalOutcomeDetailComponent implements OnInit {
       this.tombol = false;
     }
   }
-  
-  
 
   onCancel() {
     this.modalCtrl.dismiss(null, 'cancel');
@@ -94,7 +92,6 @@ export class ModalOutcomeDetailComponent implements OnInit {
     for(let item of this.selectedOrgs.obj) {
       sumVal += item.price;
     }
-    console.log(sumVal);
     return sumVal;
   }
 
@@ -152,7 +149,7 @@ export class ModalOutcomeDetailComponent implements OnInit {
           text: 'Yes, and I want to close it',
           handler: () => {
             this.router.navigate(['/organisasi']);
-            this.presentToast();
+            this.doneToast();
           }
         }
       ]
@@ -160,7 +157,7 @@ export class ModalOutcomeDetailComponent implements OnInit {
     await alert.present();
   }
 
-  async presentToast() {
+  async doneToast() {
     const toast = await this.toastCtrl.create({
       message: 'Thank you',
       position: 'bottom',

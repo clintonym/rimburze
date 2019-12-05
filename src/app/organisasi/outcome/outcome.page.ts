@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Organisasi, Outcome, Users } from '../organisasi.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OrganisasiService } from '../organisasi.service';
-import { ModalController, PopoverController } from '@ionic/angular';
+import { ModalController, PopoverController, ToastController } from '@ionic/angular';
 import { ModalOutcomeDetailComponent } from 'src/app/modal-outcome-detail/modal-outcome-detail.component';
 import { PopoverComponent } from 'src/app/popover/popover.component';
 import { Observable } from 'rxjs';
@@ -41,6 +41,7 @@ export class OutcomePage implements OnInit {
     private popoverCtrl: PopoverController,
     private actvRoute: ActivatedRoute,
     private db: AngularFirestore,
+    private toastCtrl: ToastController,
   ) {
     this.orgId = this.actvRoute.snapshot.params['organisasiId'];
 
@@ -61,15 +62,12 @@ export class OutcomePage implements OnInit {
       this.listLength = res.length;
       return this.cekUser(this.outcome2);
     });
-
   }
 
   ngOnInit() {
     this.loadedOrgs = this.orgsService.getSelectedOrgs();
     this.user = this.orgsService.getUser();
     this.orgId = this.actvRoute.snapshot.params['organisasiId'];
-    
-    
   }
   
   ionViewWillEnter() {
@@ -106,9 +104,24 @@ export class OutcomePage implements OnInit {
         name: this.user.displayName,
         obj: []
       },
-    ).then(function() {
+    ).then(() => {
       console.log("updated");
+      this.joinToast();
     });
+  }
+
+  async joinToast() {
+    const toast = await this.toastCtrl.create({
+      message: 'Welcome to \"' + this.loadedOrgs.name + '\"',
+      buttons: [
+        {
+          text: 'Close',
+          role: 'cancel'
+        }
+      ],
+      duration: 2000
+    });
+    toast.present();
   }
 
   async modalOnClick(orgs: Outcome) {
@@ -116,7 +129,6 @@ export class OutcomePage implements OnInit {
       component: ModalOutcomeDetailComponent,
       componentProps: { selectedOrgs: orgs, }
     });
-
     return await modal.present();
   }
 

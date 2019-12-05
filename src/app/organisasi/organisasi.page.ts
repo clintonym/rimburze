@@ -28,7 +28,7 @@ export class OrganisasiPage implements OnInit {
     private orgsService: OrganisasiService,
     private alertCtrl: AlertController,
     private router: Router,
-    private toastController: ToastController,
+    private toastCtrl: ToastController,
     private modalCtrl: ModalController,
     private db: AngularFirestore,
   ) { }
@@ -60,7 +60,7 @@ export class OrganisasiPage implements OnInit {
   async selectOrgs(org: Organisasi){
     const modal = await this.modalCtrl.create({
       component: ModalGroupPasswordComponent,
-      componentProps: {selectedOrgs: org}
+      componentProps: {selectedOrgs: org},
     });
 
     return await modal.present();
@@ -81,7 +81,7 @@ export class OrganisasiPage implements OnInit {
   }
 
   async createToast() {
-    const toast = await this.toastController.create({
+    const toast = await this.toastCtrl.create({
       message: 'Group created',
       position: 'bottom',
       duration: 2000,

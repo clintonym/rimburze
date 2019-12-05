@@ -31,11 +31,11 @@ export class AuthPage implements OnInit {
       this.orgService.setSelectedUser(resp);
       this.router.navigateByUrl('organisasi');
     }, err => {
-      this.presentToast();
+      this.passwordToast();
     })
   }
 
-  async presentToast() {
+  async passwordToast() {
     const toast = await this.toastCtrl.create({
       message: 'Wrong email or password',
       buttons: [
