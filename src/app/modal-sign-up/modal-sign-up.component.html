@@ -13,8 +13,8 @@
       <ion-label style="font-size: 13px;" position="floating">name</ion-label>
       <ion-input style="font-size: 13px;"
         required
-        [(ngModel)]="selectedUser.name"
-        name="name"
+        [(ngModel)]="selectedUser.displayName"
+        name="inpName"
         type="text"
       ></ion-input>
     </ion-item>
@@ -23,7 +23,7 @@
       <ion-input style="font-size: 13px;"
         required
         [(ngModel)]="selectedUser.email"
-        name="email"
+        name="inpEmail"
         type="email"
       ></ion-input>
     </ion-item>

@@ -8,6 +8,7 @@ import { ModalGroupPasswordComponent } from '../modal-group-password/modal-group
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
+import * as firebase from 'firebase';
 // import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 
 @Component({
@@ -30,7 +31,6 @@ export class OrganisasiPage implements OnInit {
     private router: Router,
     private toastCtrl: ToastController,
     private modalCtrl: ModalController,
-    private db: AngularFirestore,
   ) { }
 
   ngOnInit() {
@@ -39,7 +39,7 @@ export class OrganisasiPage implements OnInit {
       this.loadedOrgs = res;
       console.log(this.loadedOrgs);
     });
-    console.log(this.user);
+    console.log("NAMA: " + this.user.displayName);
   }
 
   ionViewDidLoad() {
@@ -48,7 +48,6 @@ export class OrganisasiPage implements OnInit {
       this.loadedOrgs = res;
       console.log(this.loadedOrgs);
     });
-    console.log(this.user);
   }
 
   ngOnDestroy() {

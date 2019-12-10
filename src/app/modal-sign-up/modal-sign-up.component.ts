@@ -27,7 +27,7 @@ export class ModalSignUpComponent implements OnInit {
 
   ngOnInit() {
     this.selectedUser = {
-      name: '',
+      displayName: '',
       email: ''
     }
     this.userSub = this.orgService.getUsers().subscribe(res => {
@@ -59,11 +59,16 @@ export class ModalSignUpComponent implements OnInit {
       else if(this.ada == false) {
         console.log("blm ada");
         this.orgService.addUser(this.selectedUser);
-        this.authSvc.signup(f.value.email, f.value.pwd,f.value.name).subscribe(resp => {
+        this.authSvc.signup(f.value.inpEmail, f.value.pwd,f.value.inpName).subscribe(resp => {
           console.log(resp);
           this.presentLoading();
           this.modalCtrl.dismiss();
         });
+        this.selectedUser = {
+          displayName: f.value.inpName,
+          email: f.value.inpEmail
+        }
+        console.log(this.selectedUser);
       }
     }
   }
@@ -83,10 +88,6 @@ export class ModalSignUpComponent implements OnInit {
   }
 
   ionViewDidLoad(){
-    this.selectedUser = {
-      name: '',
-      email: ''
-    }
     this.userSub = this.orgService.getUsers().subscribe(res => {
       this.allUser = res;
     });

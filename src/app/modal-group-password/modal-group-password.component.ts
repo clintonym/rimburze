@@ -2,7 +2,11 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Organisasi, Users } from '../organisasi/organisasi.model';
 import { ModalController, ToastController } from '@ionic/angular';
 import { OrganisasiService } from '../organisasi/organisasi.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import * as firebase from 'firebase';
+import { AngularFirestoreCollection, AngularFirestore } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 @Component({
   selector: 'app-modal-group-password',
   templateUrl: './modal-group-password.component.html',
@@ -10,15 +14,25 @@ import { Router } from '@angular/router';
 })
 export class ModalGroupPasswordComponent implements OnInit {
   @Input() selectedOrgs: Organisasi;
+  @Input() user: Users;
 
   enterPwd: string;
-  @Input() user: Users;
+  orgId = null;
+  path: any;
 
   constructor(
     private modalCtrl: ModalController, 
     private orgService:OrganisasiService, 
     private router: Router,
-    private toastCtrl: ToastController) { }
+    private toastCtrl: ToastController,
+    private actvRoute: ActivatedRoute,
+    //db: AngularFirestore
+    ) {
+      const db = firebase.firestore();
+      const ref = db.collection('organisasi').doc();
+      const id = ref.id;
+      console.log(id);
+    }
 
   ngOnInit() {
     this.user = this.orgService.getUser();

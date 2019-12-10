@@ -10,7 +10,6 @@ import { tokenName } from '@angular/compiler';
 import * as firebase from 'firebase';
 import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { map } from 'rxjs/operators';
-import { SSL_OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION } from 'constants';
 
 @Component({
   selector: 'app-outcome',
