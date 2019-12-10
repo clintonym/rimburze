@@ -35,7 +35,7 @@
               GROUPS
             </ion-list-header>
             <!-- <ion-item lines="none" (click)="orgsOnClick(org.id)" *ngFor="let org of loadedOrgs"> -->
-            <ion-item lines="full" (click)="selectOrgs(org)" *ngFor="let org of loadedOrgs">
+            <ion-item lines="full" (click)="selectOrgs(org, org.id)" *ngFor="let org of loadedOrgs">
               <ion-avatar slot="start">
                 <img src="./assets/icon/rimburze_logo.png">
               </ion-avatar>
