@@ -20,6 +20,9 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ModalSignUpComponent } from './modal-sign-up/modal-sign-up.component';
 
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+
+
 // import { AngularFireModule } from 'angularfire2';
 // import { AngularFireAuth } from 'angularfire2/auth';
 import { AuthService } from './auth/auth.service';
@@ -34,6 +37,7 @@ import { ModalGroupPasswordComponent } from './modal-group-password/modal-group-
     AngularFirestoreModule, FormsModule],
   providers: [
     AuthService,
+    Camera,
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }

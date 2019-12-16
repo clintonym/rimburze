@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController, ToastController } from '@ionic/angular';
+import { ModalController, ToastController, NavController } from '@ionic/angular';
 import { ModalSignUpComponent } from '../modal-sign-up/modal-sign-up.component';
 import { NgForm } from '@angular/forms';
 import { AuthService } from './auth.service';
@@ -18,6 +18,7 @@ export class AuthPage implements OnInit {
     private authSvc: AuthService,
     private router: Router,
     private toastCtrl: ToastController,
+    private navCtrl: NavController,
     private orgService: OrganisasiService
   ) { }
 
@@ -29,7 +30,8 @@ export class AuthPage implements OnInit {
     this.authSvc.login(f.value.email, f.value.pwd).subscribe(resp => {
       console.log(resp);
       this.orgService.setSelectedUser(resp);
-      this.router.navigateByUrl('organisasi');
+      this.navCtrl.navigateRoot('organisasi');
+      // this.router.navigateByUrl('organisasi');
     }, err => {
       this.passwordToast();
     })

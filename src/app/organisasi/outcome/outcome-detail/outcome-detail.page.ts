@@ -7,6 +7,7 @@ import { Organisasi, Outcome, Obj, Users } from '../../organisasi.model';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import * as firebase from 'firebase';
+import { CameraOptions, Camera } from '@ionic-native/camera/ngx';
 
 @Component({
   selector: 'app-outcome-detail',
@@ -34,6 +35,7 @@ export class OutcomeDetailPage implements OnInit {
     private alertCtrl: AlertController,
     private toastCtrl: ToastController,
     private router: Router,
+    private camera: Camera,
     private db: AngularFirestore,
     private loadingCtrl: LoadingController
   ) { 
@@ -146,6 +148,14 @@ export class OutcomeDetailPage implements OnInit {
           role: 'cancel',
         },
         {
+          text: 'Photo',
+          handler: () => {
+            console.log("Camera Opened");
+            this.openCamera();
+            console.log("Camera Closed");
+          }
+        },
+        {
           text: 'Add',
           handler: data => {
             // this.addLoading();
@@ -203,6 +213,23 @@ export class OutcomeDetailPage implements OnInit {
       ]
     })
     await toast.present();
+  }
+
+  openCamera() {
+    const options: CameraOptions = {
+      quality: 100,
+      destinationType: this.camera.DestinationType.FILE_URI,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE
+    }
+    
+    this.camera.getPicture(options).then((imageData) => {
+     // imageData is either a base64 encoded string or a file URI
+     // If it's base64 (DATA_URL):
+     let base64Image = 'data:image/jpeg;base64,' + imageData;
+    }, (err) => {
+     // Handle error
+    });
   }
 
 }
