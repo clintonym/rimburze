@@ -1,5 +1,7 @@
 {
   "name": "rimburze",
-  "integrations": {},
+  "integrations": {
+    "capacitor": {}
+  },
   "type": "angular"
 }
