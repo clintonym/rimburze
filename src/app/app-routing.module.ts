@@ -18,11 +18,16 @@ const routes: Routes = [
           {
             path: '',
             loadChildren: './organisasi/outcome/outcome.module#OutcomePageModule'  
+          }, 
+          {
+            path: 'history',
+            loadChildren: './organisasi/history/history.module#HistoryPageModule'
           },
           {
             path:':outcomeId',
             loadChildren: './organisasi/outcome/outcome-detail/outcome-detail.module#OutcomeDetailPageModule'
-          }
+          },
+         
         ]
       }
     ]

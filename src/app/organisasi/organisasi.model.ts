@@ -26,7 +26,8 @@ export interface History {
     histName: string,
     histDate: string,
     histTotal: number,
-    histUser: string
+    histUser: string,
+    histEmail: string
 }
 
 export interface Users{

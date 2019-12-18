@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { OrganisasiService } from '../../organisasi.service';
 import { ModalController, AlertController, ToastController, LoadingController } from '@ionic/angular';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
-import { Organisasi, Outcome, Obj, Users } from '../../organisasi.model';
+import { Organisasi, Outcome, Obj, Users, History } from '../../organisasi.model';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import * as firebase from 'firebase';
@@ -26,6 +26,7 @@ export class OutcomeDetailPage implements OnInit {
   orgId = null;
   outcomeId = null;
   tombol = false;
+  total = 0;
 
   constructor(
     private actvRoute: ActivatedRoute,
@@ -83,15 +84,42 @@ export class OutcomeDetailPage implements OnInit {
           role: 'cancel',
         },
         {
-          text: 'Yes',
+          text: 'Delete',
           handler: () => {
             firebase.firestore()
             .collection('organisasi').doc(this.orgId).collection('outcome').doc(this.outcomeId)
             .collection('obj').doc(obj.id).delete()
-            .then( function() {
-              console.log("Obj successfully deleted!");
+            .then( () => {
+              this.toastDelete(obj.objName);
             }).catch(function(error) {
               console.error("Error removing Obj: ", error);
+            });
+          },
+        },
+        {
+          text: 'Reimburse',
+          handler: () => {
+            firebase.firestore()
+            .collection('organisasi').doc(this.orgId).collection('history').add(
+              {   
+                histName: obj.objName,
+                histDate: new Date(),
+                histTotal: this.total,
+                histUser: this.user.displayName,
+                histEmail: this.user.email
+              },
+              // { merge: true }
+            ).then(function() {
+              console.log(obj.objName + " Reimbursed");
+            });
+
+            firebase.firestore()
+            .collection('organisasi').doc(this.orgId).collection('outcome').doc(this.outcomeId)
+            .collection('obj').doc(obj.id).delete()
+            .then( () => {
+              this.toastReimburse(obj.objName);
+            }).catch(function(error) {
+              console.error("Error reimbursing Obj: ", error);
             });
           }
         }
@@ -100,18 +128,32 @@ export class OutcomeDetailPage implements OnInit {
     await alert.present();
   }
 
-  async toastDelete() {
+  async toastDelete(name) {
     const toast = await this.toastCtrl.create({
-      message:  '\"' + this.loadedObj + '\" has been deleted',
+      message:  '\"' + name + '\" has been deleted',
       buttons: [
         {
+          side: 'end',
           text: 'Close',
           role: 'cancel'
         }
-      ],
-      duration: 2000
-    });
-    toast.present();
+      ]
+    })
+    await toast.present();
+  }
+
+  async toastReimburse(name) {
+    const toast = await this.toastCtrl.create({
+      message:  '\"' + name + '\" has been reimbursed',
+      buttons: [
+        {
+          side: 'end',
+          text: 'Close',
+          role: 'cancel'
+        }
+      ]
+    })
+    await toast.present();
   }
 
   getTotalPrice() {
@@ -123,6 +165,7 @@ export class OutcomeDetailPage implements OnInit {
       for(let item of this.loadedObj) {
         sumVal = +sumVal + +item.price;
       }
+      this.total = sumVal;
       return sumVal;
     }
     

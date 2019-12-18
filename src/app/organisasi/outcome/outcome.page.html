@@ -3,7 +3,7 @@
     <ion-back-button defaultHref="/organisasi"></ion-back-button>
   </ion-buttons>
   <ion-title style="font-size: 16px;">{{ loadedOrgs.name }}</ion-title>  
-  <ion-icon slot="end" name="paper" class="iconSize" (click)="histOnClick(outcome2)"></ion-icon>
+  <ion-icon slot="end" name="paper" class="iconSize" (click)="histOnClick(loadedOrgs.id)"></ion-icon>
 </ion-toolbar>
 
 <ion-content>

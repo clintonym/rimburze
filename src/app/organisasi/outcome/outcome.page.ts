@@ -137,12 +137,14 @@ export class OutcomePage implements OnInit {
     this.router.navigate(['/organisasi', this.orgId, oc.id]);
   }
 
-  async histOnClick(orgs: Organisasi) {
-    const modal = await this.modalCtrl.create({
-      component: PopoverComponent,
-      componentProps: {selectedOrgs: orgs}
-    });
-    return await modal.present();
+  histOnClick(iniId: string) {
+    console.log("iniId " + iniId);
+    // const modal = await this.modalCtrl.create({
+    //   component: PopoverComponent,
+    //   componentProps: {selectedOrgId: iniId}
+    // });
+    // return await modal.present();
+    this.router.navigate(['/', 'organisasi', iniId , 'history']);
   }
 
 }
