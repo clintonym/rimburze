@@ -107,6 +107,7 @@ export class OutcomePage implements OnInit {
       console.log("updated");
       this.joinToast();
     });
+    
   }
 
   async joinToast() {

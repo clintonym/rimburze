@@ -23,9 +23,10 @@ export interface Obj {
 
 export interface History {
     //id: string,
-    name: string,
-    date: string,
-    total: number
+    histName: string,
+    histDate: string,
+    histTotal: number,
+    histUser: string
 }
 
 export interface Users{

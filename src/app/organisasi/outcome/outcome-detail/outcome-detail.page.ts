@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OrganisasiService } from '../../organisasi.service';
 import { ModalController, AlertController, ToastController, LoadingController } from '@ionic/angular';
@@ -7,7 +7,7 @@ import { Organisasi, Outcome, Obj, Users } from '../../organisasi.model';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import * as firebase from 'firebase';
-import { CameraOptions, Camera } from '@ionic-native/camera/ngx';
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 
 @Component({
   selector: 'app-outcome-detail',
@@ -35,7 +35,7 @@ export class OutcomeDetailPage implements OnInit {
     private alertCtrl: AlertController,
     private toastCtrl: ToastController,
     private router: Router,
-    private camera: Camera,
+    @Inject(Camera) private camera: Camera,
     private db: AngularFirestore,
     private loadingCtrl: LoadingController
   ) { 
@@ -59,10 +59,11 @@ export class OutcomeDetailPage implements OnInit {
 
   ngOnInit() {
     this.loadedOutcome = this.orgsService.getOutcome();
+    
     this.obj.subscribe(res => {
       this.loadedObj = res;
     });
-    
+   
     console.log(this.user.email + " " + this.loadedOutcome.email);
     if(this.user.email == this.loadedOutcome.email) {
       this.tombol = true;
@@ -181,7 +182,7 @@ export class OutcomeDetailPage implements OnInit {
   async doneOnClick() {
     const alert = await this.alertCtrl.create({
       header: 'Reimburse',
-      message: 'Are you sure want to close the receipt? You will not be able to add another item.',
+      message: 'Are you sure want to close the receipt? You still can add another item.',
       buttons: [
         {
           text: 'Cancel',
@@ -189,7 +190,28 @@ export class OutcomeDetailPage implements OnInit {
         },
         {
           text: 'Yes',
-          handler: () => {
+          handler: () => 
+          {
+            //ambil data, bnr gk ya...
+            // data = firebase.firestore()
+            // .collection('organisasi').doc(this.orgId).collection('outcome').doc(this.outcomeId).collection('obj').get();
+            
+            ////delete dulu yang di obj tapi gk bisa delete collection, gmn yah..
+            
+
+            ////taro ke history
+            // firebase.firestore()
+            // .collection('organisasi').doc(this.orgId).collection('history').add(
+            //   {   
+            //     histName: data.inpName,
+            //     histDate: new Date(),
+            //     histTotal: data.sumVal,
+            //     histUser: this.user.displayName
+            //   },
+            //   // { merge: true }
+            // ).then(function() {
+            //   console.log("updated");
+            // });
             this.router.navigate(['/organisasi']);
             this.toastDone();
           }
