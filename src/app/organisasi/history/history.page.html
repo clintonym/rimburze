@@ -21,7 +21,9 @@
               </ion-card-header>
               <ion-card-content>
                 <ion-label style="font-size: 16px;">{{ history.histUser }}</ion-label>
-                <ion-label style="font-size: 16px;">( {{ history.histEmail }}</ion-label>
+                <br>
+                <ion-label style="font-size: 12px;">{{ history.histEmail }} </ion-label>
+                <br>
                 <ion-icon name="pricetag" slot="start" style="color: #00E676;"></ion-icon>
                 <ion-label style="font-size: 15px; color: #00E676;"> +{{ history.histTotal | currency : "Rp"}}</ion-label>
               </ion-card-content>

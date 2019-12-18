@@ -75,57 +75,62 @@ export class OutcomeDetailPage implements OnInit {
   }
 
   async deleteObj(obj){
-    const alert = await this.alertCtrl.create({
-      header: 'Delete Item',
-      message: 'Are you sure want to delete \"' + obj.objName + '\"?',
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-        },
-        {
-          text: 'Delete',
-          handler: () => {
-            firebase.firestore()
-            .collection('organisasi').doc(this.orgId).collection('outcome').doc(this.outcomeId)
-            .collection('obj').doc(obj.id).delete()
-            .then( () => {
-              this.toastDelete(obj.objName);
-            }).catch(function(error) {
-              console.error("Error removing Obj: ", error);
-            });
+    if(this.user.email == this.loadedOutcome.email){
+      const alert = await this.alertCtrl.create({
+        header: 'Delete Item',
+        message: 'Are you sure want to delete \"' + obj.objName + '\"?',
+        buttons: [
+          {
+            text: 'Cancel',
+            role: 'cancel',
           },
-        },
-        {
-          text: 'Reimburse',
-          handler: () => {
-            firebase.firestore()
-            .collection('organisasi').doc(this.orgId).collection('history').add(
-              {   
-                histName: obj.objName,
-                histDate: new Date(),
-                histTotal: this.total,
-                histUser: this.user.displayName,
-                histEmail: this.user.email
-              },
-              // { merge: true }
-            ).then(function() {
-              console.log(obj.objName + " Reimbursed");
-            });
-
-            firebase.firestore()
-            .collection('organisasi').doc(this.orgId).collection('outcome').doc(this.outcomeId)
-            .collection('obj').doc(obj.id).delete()
-            .then( () => {
-              this.toastReimburse(obj.objName);
-            }).catch(function(error) {
-              console.error("Error reimbursing Obj: ", error);
-            });
+          {
+            text: 'Delete',
+            handler: () => {
+              firebase.firestore()
+              .collection('organisasi').doc(this.orgId).collection('outcome').doc(this.outcomeId)
+              .collection('obj').doc(obj.id).delete()
+              .then( () => {
+                this.toastDelete(obj.objName);
+              }).catch(function(error) {
+                console.error("Error removing Obj: ", error);
+              });
+            },
+          },
+          {
+            text: 'Reimburse',
+            handler: () => {
+              firebase.firestore()
+              .collection('organisasi').doc(this.orgId).collection('history').add(
+                {   
+                  histName: obj.objName,
+                  histDate: new Date(),
+                  histTotal: this.total,
+                  histUser: this.user.displayName,
+                  histEmail: this.user.email
+                },
+                // { merge: true }
+              ).then(function() {
+                console.log(obj.objName + " Reimbursed");
+              });
+  
+              firebase.firestore()
+              .collection('organisasi').doc(this.orgId).collection('outcome').doc(this.outcomeId)
+              .collection('obj').doc(obj.id).delete()
+              .then( () => {
+                this.toastReimburse(obj.objName);
+              }).catch(function(error) {
+                console.error("Error reimbursing Obj: ", error);
+              });
+            }
           }
-        }
-      ]
-    });
-    await alert.present();
+        ]
+      });
+      await alert.present();
+    }else{
+      console.log("not valid user");
+    }
+    
   }
 
   async toastDelete(name) {
