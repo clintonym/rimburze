@@ -7,7 +7,7 @@ import { Organisasi, Outcome, Obj, Users, History } from '../../organisasi.model
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import * as firebase from 'firebase';
-import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { ModalAddObjComponent } from 'src/app/modal-add-obj/modal-add-obj.component';
 
 @Component({
   selector: 'app-outcome-detail',
@@ -22,6 +22,7 @@ export class OutcomeDetailPage implements OnInit {
   loadedObj: Obj[];
   loadedOutcome: Outcome;
   user: Users;
+  base64Image: string;
 
   orgId = null;
   outcomeId = null;
@@ -30,15 +31,11 @@ export class OutcomeDetailPage implements OnInit {
 
   constructor(
     private actvRoute: ActivatedRoute,
-    private activatedOrgs: ActivatedRoute,
     private orgsService: OrganisasiService,
     private modalCtrl: ModalController,
     private alertCtrl: AlertController,
     private toastCtrl: ToastController,
-    private router: Router,
-    @Inject(Camera) private camera: Camera,
     private db: AngularFirestore,
-    private loadingCtrl: LoadingController
   ) { 
     this.user = this.orgsService.getUser();
     this.orgId = this.actvRoute.snapshot.params['organisasiId'];
@@ -77,8 +74,8 @@ export class OutcomeDetailPage implements OnInit {
   async deleteObj(obj){
     if(this.user.email == this.loadedOutcome.email){
       const alert = await this.alertCtrl.create({
-        header: 'Delete Item',
-        message: 'Are you sure want to delete \"' + obj.objName + '\"?',
+        header: obj.objName,
+        message: 'Do you want to delete or reimburse this item?',
         buttons: [
           {
             text: 'Cancel',
@@ -123,7 +120,7 @@ export class OutcomeDetailPage implements OnInit {
                 console.error("Error reimbursing Obj: ", error);
               });
             }
-          }
+          },
         ]
       });
       await alert.present();
@@ -142,8 +139,9 @@ export class OutcomeDetailPage implements OnInit {
           text: 'Close',
           role: 'cancel'
         }
-      ]
-    })
+      ],
+      duration: 2000
+    });
     await toast.present();
   }
 
@@ -156,8 +154,9 @@ export class OutcomeDetailPage implements OnInit {
           text: 'Close',
           role: 'cancel'
         }
-      ]
-    })
+      ],
+      duration: 2000
+    });
     await toast.present();
   }
 
@@ -197,17 +196,8 @@ export class OutcomeDetailPage implements OnInit {
           role: 'cancel',
         },
         {
-          text: 'Photo',
-          handler: () => {
-            console.log("Camera Opened");
-            this.openCamera();
-            console.log("Camera Closed");
-          }
-        },
-        {
           text: 'Add',
           handler: data => {
-            // this.addLoading();
             firebase.firestore()
             .collection('organisasi').doc(this.orgId).collection('outcome').doc(this.outcomeId).collection('obj').add(
               { 
@@ -215,11 +205,9 @@ export class OutcomeDetailPage implements OnInit {
                 price: data.inpPrice,
                 date: new Date()
               },
-              // { merge: true }
             ).then(function() {
               console.log("updated");
             });
-            console.log("Hope you get reimbursement");
           }
         }
       ]
@@ -227,79 +215,12 @@ export class OutcomeDetailPage implements OnInit {
     await alert.present();
   }
 
-  async doneOnClick() {
-    const alert = await this.alertCtrl.create({
-      header: 'Reimburse',
-      message: 'Are you sure want to close the receipt? You still can add another item.',
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-        },
-        {
-          text: 'Yes',
-          handler: () => 
-          {
-            //ambil data, bnr gk ya...
-            // data = firebase.firestore()
-            // .collection('organisasi').doc(this.orgId).collection('outcome').doc(this.outcomeId).collection('obj').get();
-            
-            ////delete dulu yang di obj tapi gk bisa delete collection, gmn yah..
-            
-
-            ////taro ke history
-            // firebase.firestore()
-            // .collection('organisasi').doc(this.orgId).collection('history').add(
-            //   {   
-            //     histName: data.inpName,
-            //     histDate: new Date(),
-            //     histTotal: data.sumVal,
-            //     histUser: this.user.displayName
-            //   },
-            //   // { merge: true }
-            // ).then(function() {
-            //   console.log("updated");
-            // });
-            this.router.navigate(['/organisasi']);
-            this.toastDone();
-          }
-        }
-      ]
+  async modalAddOnClick() {
+    const modal = await this.modalCtrl.create({
+      component: ModalAddObjComponent,
+      componentProps: { user: this.user, orgId: this.orgId, outcomeId: this.outcomeId }
     });
-    await alert.present();
-  }
-
-  async toastDone() {
-    const toast = await this.toastCtrl.create({
-      message: 'Thank you',
-      position: 'bottom',
-      duration: 2000,
-      buttons: [
-        {
-          side: 'end',
-          text: 'Close',
-          role: 'cancel'
-        }
-      ]
-    })
-    await toast.present();
-  }
-
-  openCamera() {
-    const options: CameraOptions = {
-      quality: 100,
-      destinationType: this.camera.DestinationType.FILE_URI,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE
-    }
-    
-    this.camera.getPicture(options).then((imageData) => {
-     // imageData is either a base64 encoded string or a file URI
-     // If it's base64 (DATA_URL):
-     let base64Image = 'data:image/jpeg;base64,' + imageData;
-    }, (err) => {
-     // Handle error
-    });
+    return await modal.present();
   }
 
 }

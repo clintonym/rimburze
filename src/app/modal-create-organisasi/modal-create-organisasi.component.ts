@@ -3,6 +3,7 @@ import { Organisasi, Users } from '../organisasi/organisasi.model';
 import { ActivatedRoute } from '@angular/router';
 import { OrganisasiService } from '../organisasi/organisasi.service';
 import { LoadingController, NavController, ModalController, ToastController } from '@ionic/angular';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-modal-create-organisasi',
@@ -38,7 +39,8 @@ export class ModalCreateOrganisasiComponent implements OnInit {
             {
               objName: '',
               price: null,
-              date: ''
+              date: '',
+              foto: ''
             }
           ]
         }
@@ -46,21 +48,15 @@ export class ModalCreateOrganisasiComponent implements OnInit {
     }
   }
 
-  onCancel() {
-    this.modalCtrl.dismiss(null, 'cancel');
-  }
-
-  async createGroup() {
-    const loading = await this.loadingCtrl.create({
-      message: 'Creating Group...'
-    });
-    await loading.present();
-
+  onCreateGroup(f: NgForm) {
     this.orgsService.addOrgs(this.selectedOrgs).then(() => {
-      loading.dismiss();
       this.onCancel();
       this.groupCreatedToast();
     })
+  }
+
+  onCancel() {
+    this.modalCtrl.dismiss(null, 'cancel');
   }
 
   async groupCreatedToast() {

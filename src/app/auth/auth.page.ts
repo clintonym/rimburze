@@ -46,7 +46,7 @@ export class AuthPage implements OnInit {
           role: 'cancel'
         }
       ],
-      duration: 5000
+      duration: 2000
     });
     toast.present();
   }

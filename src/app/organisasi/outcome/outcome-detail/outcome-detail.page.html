@@ -21,7 +21,7 @@
             <ion-list-header>
               EXPENSES
             </ion-list-header>
-            <ion-item lines="full" *ngFor="let obj of loadedObj" (click)="deleteObj(obj)">
+            <ion-item lines="full" *ngFor="let obj of loadedObj" (click)="deleteObj(obj,obj.id)">
               <ion-icon slot="start" name="cash" size="small" color="danger" style="margin-left: -2%; margin-right: 4%;"></ion-icon>
               <ion-label>
                 <p style="font-size: 13px;">{{ obj.objName }}</p>
@@ -40,17 +40,9 @@
 
 <div *ngIf="tombol == true">
   <ion-fab horizontal="end" vertical="bottom" slot="fixed">
-    <ion-fab-button color="tertiary">
-      <ion-icon name="arrow-dropup"></ion-icon>
+    <ion-fab-button color="tertiary" (click)="modalAddOnClick()">
+      <ion-icon name="add"></ion-icon>
     </ion-fab-button>
-    <ion-fab-list side="top">
-      <ion-fab-button color="tertiary" (click)="addOnClick()">
-        <ion-icon name="add"></ion-icon>
-      </ion-fab-button>
-      <ion-fab-button color="tertiary">
-          <ion-icon name="done-all" (click)="doneOnClick()"></ion-icon>
-        </ion-fab-button>
-    </ion-fab-list>
   </ion-fab>
 </div>
 <div *ngIf="tombol == false"></div>

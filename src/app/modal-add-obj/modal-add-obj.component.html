@@ -1,0 +1,25 @@
+<ion-toolbar style="border-bottom-left-radius: 15px; border-bottom-right-radius: 15px;">
+  <ion-title style="font-size: 16px;">Add Item</ion-title>
+  <ion-buttons slot="primary">
+    <ion-button (click)="onCancel()">
+      <ion-icon name="close"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+</ion-toolbar>
+
+<ion-content padding>
+  <form #f="ngForm" (ngSubmit)="onAddItem(f)">
+    <ion-item>
+      <ion-input style="font-size: 13px;" required type="text" placeholder="Item's Name" ngModel name="inpObjName"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input style="font-size: 13px;" required type="number" placeholder="Item's Price" ngModel name="inpObjPrice"></ion-input>
+    </ion-item>
+    <div text-center *ngIf="!base64Image" style="margin-top: 5%;">
+      <ion-label style="font-size: 13px;">No photo</ion-label>
+    </div>
+    <ion-img [src]="base64Image" class="image" *ngIf="base64Image"></ion-img>
+    <ion-button fill="clear" *ngIf="f.value.inpObjName" style="font-size: 12px;" color="tertiary" (click)="openCamera(f.value.inpObjName)">Add Photo</ion-button>
+    <ion-button [disabled]="!f.valid" type="submit" color="tertiary" style="font-size: 12px; margin-left: auto; margin-right: auto; margin-top: 10px;" expand="block" >Add Item</ion-button>
+  </form>
+</ion-content>

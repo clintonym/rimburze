@@ -27,11 +27,12 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 // import { AngularFireAuth } from 'angularfire2/auth';
 import { AuthService } from './auth/auth.service';
 import { ModalGroupPasswordComponent } from './modal-group-password/modal-group-password.component';
+import { ModalAddObjComponent } from './modal-add-obj/modal-add-obj.component';
 // import { AngularFireDatabase } from 'angularfire2/database';
 
 @NgModule({
-  declarations: [AppComponent, ModalOutcomeDetailComponent,ModalGroupPasswordComponent, ModalCreateOrganisasiComponent, ModalSignUpComponent, PopoverComponent],
-  entryComponents: [ModalOutcomeDetailComponent, ModalGroupPasswordComponent, ModalCreateOrganisasiComponent, ModalSignUpComponent, PopoverComponent],
+  declarations: [AppComponent, ModalAddObjComponent, ModalOutcomeDetailComponent,ModalGroupPasswordComponent, ModalCreateOrganisasiComponent, ModalSignUpComponent, PopoverComponent],
+  entryComponents: [ModalAddObjComponent, ModalOutcomeDetailComponent, ModalGroupPasswordComponent, ModalCreateOrganisasiComponent, ModalSignUpComponent, PopoverComponent],
   imports: [BrowserModule, HttpClientModule, IonicModule.forRoot(), AppRoutingModule, 
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule, FormsModule],

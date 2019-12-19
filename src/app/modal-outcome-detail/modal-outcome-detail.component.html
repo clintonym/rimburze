@@ -1,47 +1,23 @@
-<!-- <ion-toolbar style="border-bottom-left-radius: 15px; border-bottom-right-radius: 15px;">
-  <ion-title style="font-size: 16px;">{{ selectedOrgs.name }}</ion-title>
-  <ion-buttons slot="primary">
-    <ion-button (click)="onCancel()">
-      <ion-icon name="close"></ion-icon>
-    </ion-button>
-  </ion-buttons>
+<ion-toolbar style="border-bottom-left-radius: 15px; border-bottom-right-radius: 15px;">
+    <ion-title style="font-size: 16px;">Add Item</ion-title>
+    <ion-buttons slot="primary">
+        <ion-button (click)="onCancel()">
+            <ion-icon name="close"></ion-icon>
+        </ion-button>
+    </ion-buttons>
 </ion-toolbar>
 
-<ion-content>
-  <ion-grid>
-    <ion-row>
-      <ion-col size="12" size-sm="8" offset-sm=2 text-center>
-        <div style="margin-top: 12%; margin-bottom: 5%;">
-          <ion-label color="danger" style="font-size: 15px;"><b>-{{ getTotalPrice() | currency : "Rp"}}</b></ion-label>
-        </div>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>
-        <ion-list>
-          <ion-list-header>
-            EXPENSES
-          </ion-list-header>
-        </ion-list>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+<ion-content padding>
+    <div *ngIf="!pictures">
+        <ion-label style="font-size: 13px;">No Photo</ion-label>
+    </div>
+    <div *ngIf="pictures">
+        <ion-img [src]="pictures" class="image"></ion-img>
+    </div>
+    
+    
 </ion-content>
-<div *ngIf="tombol == true">
-  <ion-fab horizontal="end" vertical="bottom" slot="fixed">
-    <ion-fab-button color="tertiary">
-      <ion-icon name="arrow-dropup"></ion-icon>
-    </ion-fab-button>
-    <ion-fab-list side="top">
-      <ion-fab-button color="tertiary" (click)="addOnClick()">
-        <ion-icon name="add"></ion-icon>
-      </ion-fab-button>
-      <ion-fab-button color="tertiary">
-          <ion-icon name="done-all" (click)="doneOnClick()"></ion-icon>
-        </ion-fab-button>
-    </ion-fab-list>
-  </ion-fab>
-</div>
-<div *ngIf="tombol == false">
-  
-</div> -->
+
+<ion-footer>
+    <ion-button expand="block" style="font-size: 12px;" color="tertiary" (click)="openCamera()">Add Photo</ion-button>
+</ion-footer>

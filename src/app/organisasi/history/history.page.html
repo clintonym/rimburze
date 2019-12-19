@@ -13,19 +13,22 @@
           <p style="font-size: 14px; color: #989aa2;">Reimbursed is empty</p>
         </div>
         <div *ngIf="loadedHist">
-          <ion-list *ngFor="let history of loadedHist">
-            <ion-card style="border-radius: 20px;" text-center>
-              <ion-card-header>
-                <ion-card-subtitle style="font-size: 12px;">{{ history.histDate.toDate() | date: 'dd MMMM yyyy' }}</ion-card-subtitle>
-                <ion-card-title style="font-size: 16px;">{{ history.histName }}</ion-card-title>
-              </ion-card-header>
+          <ion-list>
+            <ion-list-header>
+              REIMBURSED
+            </ion-list-header>
+            <ion-card style="border-radius: 5px;" text-center *ngFor="let history of loadedHist">
               <ion-card-content>
-                <ion-label style="font-size: 16px;">{{ history.histUser }}</ion-label>
+                <ion-label style="font-size: 12px;">{{ history.histDate.toDate() | date: 'dd MMMM yyyy' }}</ion-label>
+                <br>
+                <ion-label style="font-size: 13px;"><b>{{ history.histName }}</b></ion-label>
+                <br>
+                <ion-label style="font-size: 13px;">{{ history.histUser }}</ion-label>
                 <br>
                 <ion-label style="font-size: 12px;">{{ history.histEmail }} </ion-label>
                 <br>
                 <ion-icon name="pricetag" slot="start" style="color: #00E676;"></ion-icon>
-                <ion-label style="font-size: 15px; color: #00E676;"> +{{ history.histTotal | currency : "Rp"}}</ion-label>
+                <ion-label style="font-size: 13px; color: #00E676;"> +{{ history.histTotal | currency : "Rp"}}</ion-label>
               </ion-card-content>
             </ion-card>
           </ion-list>

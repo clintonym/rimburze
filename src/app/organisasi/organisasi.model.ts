@@ -18,7 +18,8 @@ export interface Obj {
     //id: string,
     objName: string,
     price: number,
-    date: string
+    date: string,
+    foto: string
 }
 
 export interface History {

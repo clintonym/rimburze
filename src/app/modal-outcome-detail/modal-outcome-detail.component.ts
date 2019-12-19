@@ -1,12 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Outcome, Obj, Organisasi, Users } from '../organisasi/organisasi.model';
-import { ModalController, AlertController, ToastController } from '@ionic/angular';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Component, OnInit, Input} from '@angular/core';
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { storage } from 'firebase';
+import { Users } from '../organisasi/organisasi.model';
 import * as firebase from 'firebase';
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { OrganisasiService } from '../organisasi/organisasi.service';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-modal-outcome-detail',
@@ -15,162 +12,70 @@ import { OrganisasiService } from '../organisasi/organisasi.service';
 })
 export class ModalOutcomeDetailComponent implements OnInit {
 
-  @Input() selectedOrgs: Outcome;
-  orgId = null;
-  ocId = null;
-  user: Users;
-  outcome2: Outcome[];
-  tombol = false;
+  @Input() objName: string;
+  @Input() user: Users;
+  @Input() orgId: string;
+  @Input() outcomeId: string;
+  @Input() objId: string;
 
-  private outcomeCollection: AngularFirestoreCollection<Outcome>;
-  private outcome: Observable<Outcome[]>;
-  
-  selectedObj: Obj[];
+  base64Image = null;
+  pictures: any;
+  objNoSpace: string;
 
   constructor(
+    private camera: Camera,
     private modalCtrl: ModalController,
-    private alertCtrl: AlertController,
-    private toastCtrl: ToastController,
-    private router: Router,
-    private actvRoute: ActivatedRoute,
-    private db: AngularFirestore,
-    private orgService: OrganisasiService
-  ) { 
-    this.orgId = this.actvRoute.snapshot.params['organisasiId'];
-    
-    this.outcomeCollection = db.collection<Organisasi>('organisasi').doc(this.orgId).collection<Outcome>('outcome');
-    
-    this.outcome = this.outcomeCollection.snapshotChanges().pipe(
-      map(actions => {
-        return actions.map(a => {
-          const data = a.payload.doc.data();
-          const id = a.payload.doc.id;
-          this.ocId = id;
-          return { id, ...data };
-        });
-      })
-    )
-    
-
-    // this.objCollection = db.collection<Organisasi>('organisasi').doc(this.orgId).collection<Outcome>('outcome').doc(this.selectedOrgs.id).collection('obj');
-    
-    // this.outcome = this.outcomeCollection.snapshotChanges().pipe(
-    //   map(actions => {
-    //     return actions.map(a => {
-    //       const data = a.payload.doc.data();
-    //       const id = a.payload.doc.id;
-    //       return { id, ...data };
-    //     });
-    //   })
-    // )
-    // this.listLength = 0;
-    // this.outcome.subscribe(res => {
-    //   this.outcome2 = res;
-    //   this.listLength = res.length;
-    // });
-  }
+  ) { }
 
   ngOnInit() {
-    // this.orgId = this.actvRoute.snapshot.params['organisasiId'];
-    // this.user = this.orgService.getUser();
-    // console.log(this.user.email + " " + this.selectedOrgs.email);
-    // if(this.user.email == this.selectedOrgs.email) {
-    //   console.log("orang ini");
-    //   this.tombol = true;
-    // }
-    // else if(this.user.email != this.selectedOrgs.email) {
-    //   this.tombol = false;
-    // }
+    this.objNoSpace = this.objName.replace(/\s/g, "");
+    if(this.pictures) {
+      this.pictures = storage().refFromURL('pictures/' + this.objNoSpace);
+    }
+    
+    console.log(this.objNoSpace);
   }
 
-  // onCancel() {
-  //   this.modalCtrl.dismiss(null, 'cancel');
-  // }
+  onCancel() {
+    this.modalCtrl.dismiss(null, 'cancel');
+  }
 
-  // getTotalPrice() {
-  //   let sumVal = 0;
-  //   for(let item of this.selectedOrgs.obj) {
-  //     sumVal += item.price;
-  //   }
-  //   return sumVal;
-  // }
+  openCamera() {
+    const options: CameraOptions = {
+      quality: 50,
+      targetHeight: 600,
+      targetWidth: 600,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE,
+      correctOrientation: true
+    }
+    
+    this.camera.getPicture(options).then((imageData) => {
+      this.base64Image = 'data:image/jpeg;base64,' + imageData;
+      this.pictures = storage().ref('pictures/' + this.objNoSpace);
+      this.pictures.putString(this.base64Image, 'data_url');
+      
+    }, (err) => {
 
-  // async addOnClick() {
-  //   const alert = await this.alertCtrl.create({
-  //     message: 'What was the last item you bought?',
-  //     inputs: [
-  //       {
-  //         name: 'inpName',
-  //         placeholder: 'Item\'s name',
-  //       },
-  //       {
-  //         name: 'inpPrice',
-  //         placeholder: 'Price',
-  //         type: 'number'
-  //       },
-  //     ],
-  //     buttons: [
-  //       {
-  //         text: 'Cancel',
-  //         role: 'cancel',
-  //       },
-  //       {
-  //         text: 'Submit',
-  //         handler: data => {
-  //           firebase.firestore()
-  //           .collection('organisasi').doc(this.orgId).collection('outcome').doc(this.selectedOrgs.id).collection('obj').add(
-  //             { 
-  //               objName: data.inpName,
-  //               price: data.inpPrice,
-  //               date: new Date()
-  //             },
-  //             // { merge: true }
-  //           ).then(function() {
-  //             console.log("updated");
-  //           });
-  //           console.log("Hope you get reimbursement");
-  //         }
-  //       }
-  //     ]
-  //   });
-  //   await alert.present();
-  // }
+    }).then( () => {
+      this.updatePhoto();
+    });
 
-  // async doneOnClick() {
-  //   const alert = await this.alertCtrl.create({
-  //     header: 'Reimburse',
-  //     message: 'Are you sure want to close the receipt? did you got paid?',
-  //     buttons: [
-  //       {
-  //         text: 'Cancel',
-  //         role: 'cancel',
-  //       },
-  //       {
-  //         text: 'Yes, and I want to close it',
-  //         handler: () => {
-  //           this.router.navigate(['/organisasi']);
-  //           this.doneToast();
-  //         }
-  //       }
-  //     ]
-  //   });
-  //   await alert.present();
-  // }
+    
+    
+    
+  }
 
-  // async doneToast() {
-  //   const toast = await this.toastCtrl.create({
-  //     message: 'Thank you',
-  //     position: 'bottom',
-  //     duration: 2000,
-  //     buttons: [
-  //       {
-  //         side: 'end',
-  //         text: 'Close',
-  //         role: 'cancel'
-  //       }
-  //     ]
-  //   })
-  //   await toast.present();
-  // }
-
+  updatePhoto(){
+    firebase.firestore()
+    .collection('organisasi').doc(this.orgId).collection('outcome').doc(this.outcomeId).collection('obj').doc(this.objId).update({ 
+        foto: this.pictures
+    },
+    ).then( () => {
+      // console.log("updated");
+      this.onCancel();
+      // this.presentToast(f.value.inpObjName);
+    });
+  }
 }
